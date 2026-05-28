@@ -2,16 +2,27 @@
 
 import { useState } from "react";
 import { HatoWordmark } from "./primitivos";
+import { useBreakpoint } from "@/hooks/useBreakpoint";
 
 export default function HatoFooter() {
+  const bp = useBreakpoint();
+  const isMobile = bp === "mobile";
+  const isTablet = bp === "tablet";
+  const isSmall  = isMobile || isTablet;
+
+  const secPad    = isMobile ? "60px 20px 0" : isTablet ? "60px 32px 0" : "80px 56px 0";
+  const creditPad = isMobile ? "14px 20px" : isTablet ? "14px 32px" : "14px 56px";
+  const gridCols  = isSmall ? "1fr" : "1.05fr 1fr";
+  const gridGap   = isMobile ? 40 : isTablet ? 48 : 80;
+
   return (
     <footer id="contacto" style={{ background: "var(--g-beige)", color: "var(--g-fg)", position: "relative" }}>
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "80px 56px 0" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1.05fr 1fr", gap: 80, alignItems: "start" }}>
+      <div style={{ maxWidth: 1440, margin: "0 auto", padding: secPad }}>
+        <div style={{ display: "grid", gridTemplateColumns: gridCols, gap: gridGap, alignItems: "start" }}>
           <div>
-            <HatoWordmark height={96} />
+            <HatoWordmark height={isMobile ? 64 : 96} />
             <h2 style={{
-              fontFamily: "var(--g-font-display)", fontSize: 36, lineHeight: 1.05,
+              fontFamily: "var(--g-font-display)", fontSize: isMobile ? 28 : 36, lineHeight: 1.05,
               color: "var(--g-verde-500)", fontWeight: 400, margin: "36px 0 18px",
               letterSpacing: "0.005em",
             }}>
@@ -30,7 +41,7 @@ export default function HatoFooter() {
 
           <div>
             <h3 style={{
-              fontFamily: "var(--g-font-display)", fontSize: 28, lineHeight: 1.1,
+              fontFamily: "var(--g-font-display)", fontSize: isMobile ? 22 : 28, lineHeight: 1.1,
               color: "var(--g-verde-500)", fontWeight: 400, margin: "0 0 22px",
             }}>
               Información de contacto
@@ -40,7 +51,7 @@ export default function HatoFooter() {
             <ContactRow icon="mail"  lines={["comunicaciones@guaicaramo.com"]} />
 
             <h3 style={{
-              fontFamily: "var(--g-font-display)", fontSize: 28, lineHeight: 1.1,
+              fontFamily: "var(--g-font-display)", fontSize: isMobile ? 22 : 28, lineHeight: 1.1,
               color: "var(--g-verde-500)", fontWeight: 400, margin: "40px 0 18px",
             }}>
               Síguenos en redes sociales
@@ -68,7 +79,7 @@ export default function HatoFooter() {
         </div>
       </div>
 
-      {/* Manada — full-bleed band, edge to edge */}
+      {/* Manada — full-bleed */}
       <div style={{ marginTop: 64, width: "100%", position: "relative", lineHeight: 0 }}>
         <img
           src="/assets/photography/manada-footer.jpg"
@@ -79,9 +90,13 @@ export default function HatoFooter() {
 
       {/* Bottom credit */}
       <div style={{
-        background: "var(--g-cafe-100)", padding: "14px 56px",
+        background: "var(--g-cafe-100)", padding: creditPad,
         fontFamily: "var(--g-font-sans)", fontSize: 12, color: "var(--g-fg-muted)",
-        display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12,
+        display: "flex",
+        flexDirection: isMobile ? "column" : "row",
+        justifyContent: "space-between",
+        alignItems: isMobile ? "flex-start" : "center",
+        gap: 12,
       }}>
         <div>© 2026 Hato Guaicaramo · Maní, Casanare</div>
         <div>Genética · Búfalos · Nutrición animal</div>

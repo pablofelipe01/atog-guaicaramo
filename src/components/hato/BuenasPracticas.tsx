@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { HatoBtn, SectionTitle } from "./primitivos";
+import { useBreakpoint } from "@/hooks/useBreakpoint";
 
 const practices = [
   { id: "riegos",   title: "Riegos",                       photo: "/assets/photography/bufalas-pastoreo.jpg" },
@@ -11,6 +12,13 @@ const practices = [
 ];
 
 export default function BuenasPracticas() {
+  const bp = useBreakpoint();
+  const isMobile = bp === "mobile";
+  const isTablet = bp === "tablet";
+
+  const secPad  = isMobile ? "0 20px" : isTablet ? "0 32px" : "0 56px";
+  const gridCols = isMobile ? "1fr" : isTablet ? "repeat(2, 1fr)" : "repeat(4, minmax(0, 1fr))";
+
   return (
     <section id="practicas" style={{
       position: "relative",
@@ -19,7 +27,7 @@ export default function BuenasPracticas() {
       backgroundSize: "cover",
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
-      padding: "80px 0 80px",
+      padding: isMobile ? "60px 0" : "80px 0 80px",
       overflow: "hidden",
     }}>
       <div style={{
@@ -27,10 +35,13 @@ export default function BuenasPracticas() {
         background: "linear-gradient(180deg, transparent 0%, rgba(249,246,232,0.18) 60%, rgba(249,246,232,0.40) 100%)",
         pointerEvents: "none",
       }} />
-      <div style={{ position: "relative", maxWidth: 1440, margin: "0 auto", padding: "0 56px" }}>
+      <div style={{ position: "relative", maxWidth: 1440, margin: "0 auto", padding: secPad }}>
         <SectionTitle color="var(--g-petroleo-900)">Nuestras buenas prácticas</SectionTitle>
         <div style={{
-          display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: 22, marginTop: 72,
+          display: "grid",
+          gridTemplateColumns: gridCols,
+          gap: isMobile ? 48 : 22,
+          marginTop: isMobile ? 40 : 72,
         }}>
           {practices.map((p, i) => <PracticeCard key={p.id} {...p} delay={i * 60} />)}
         </div>
@@ -39,7 +50,7 @@ export default function BuenasPracticas() {
   );
 }
 
-function PracticeCard({ title, photo, delay }: { title: string; photo: string; delay: number }) {
+function PracticeCard({ title, photo, delay: _delay }: { title: string; photo: string; delay: number }) {
   const [hover, setHover] = useState(false);
   return (
     <div
@@ -50,7 +61,7 @@ function PracticeCard({ title, photo, delay }: { title: string; photo: string; d
         transition: "transform 240ms var(--g-ease-soft)",
       }}
     >
-      {/* Circular photo, extending above the card */}
+      {/* Circular photo */}
       <div style={{
         position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
         width: 156, height: 156, borderRadius: "50%",
@@ -64,7 +75,7 @@ function PracticeCard({ title, photo, delay }: { title: string; photo: string; d
         }} />
       </div>
 
-      {/* The card — asymmetric tear-drop: large top corners, normal bottom */}
+      {/* Card */}
       <div style={{
         background: "var(--g-beige)",
         borderRadius: "120px 120px 14px 14px",

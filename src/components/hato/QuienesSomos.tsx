@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import type { CSSProperties } from "react";
-import { HatoIcon, HatoBtn } from "./primitivos";
+import { HatoIcon } from "./primitivos";
+import { useBreakpoint } from "@/hooks/useBreakpoint";
 
 /* staggered fade-up animation helper */
 function qsRise(i = 0): CSSProperties {
@@ -12,6 +13,13 @@ function qsRise(i = 0): CSSProperties {
 }
 
 export default function QuienesSomos() {
+  const bp        = useBreakpoint();
+  const isMobile  = bp === "mobile";
+  const isTablet  = bp === "tablet";
+  const noParallax = isMobile || isTablet;
+
+  const secPad = isMobile ? "48px 20px" : isTablet ? "60px 32px" : "72px 56px";
+
   return (
     <div id="quienes" style={{ background: "var(--g-bg)" }}>
 
@@ -21,18 +29,23 @@ export default function QuienesSomos() {
         backgroundImage: "linear-gradient(rgba(249,246,232,0.92), rgba(249,246,232,0.92)), url('/assets/photography/bufalas-grupo-pastura.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
-        padding: "32px 56px 56px",
+        padding: isMobile ? "72px 20px 40px" : isTablet ? "60px 32px 40px" : "32px 56px 56px",
         borderBottom: "1px solid var(--g-line)",
       }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <div style={{
-            display: "grid", gridTemplateColumns: "0.95fr 1.05fr",
-            gap: 64, alignItems: "stretch", minHeight: 480,
+            display: "grid",
+            gridTemplateColumns: isMobile ? "1fr" : "0.95fr 1.05fr",
+            gap: isMobile ? 32 : 64,
+            alignItems: "stretch",
+            minHeight: isMobile ? "auto" : 480,
           }}>
             {/* Image side */}
             <div style={{ position: "relative", ...qsRise(0) }}>
               <div style={{
-                position: "relative", height: "100%", minHeight: 460,
+                position: "relative",
+                height: "100%",
+                minHeight: isMobile ? 240 : 460,
                 borderRadius: 14, overflow: "hidden",
                 background: "var(--g-stone-100)",
               }}>
@@ -42,7 +55,7 @@ export default function QuienesSomos() {
                   style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 />
                 <a
-                  href="https://www.instagram.com/hatoguaicaramo/"
+                  href="https://www.instagram.com/reel/DMIYlnxRTdh/?igsh=cThsdWt5dnd4Nnhj"
                   target="_blank" rel="noopener noreferrer"
                   style={{
                     position: "absolute", left: 20, bottom: 20,
@@ -96,12 +109,17 @@ export default function QuienesSomos() {
         backgroundImage: "linear-gradient(rgba(183,173,145,0.88), rgba(183,173,145,0.88)), url('/assets/photography/bufalos-pastura-cordillera.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
-        backgroundAttachment: "fixed",
-        padding: "72px 56px",
+        backgroundAttachment: noParallax ? "scroll" : "fixed",
+        padding: secPad,
         borderTop: "1px solid var(--g-line)",
       }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "0.85fr 1.15fr", gap: 64, alignItems: "start" }}>
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: isMobile ? "1fr" : "0.85fr 1.15fr",
+            gap: isMobile ? 32 : 64,
+            alignItems: "start",
+          }}>
             <div style={{ ...qsRise(0) }}>
               <div style={{
                 fontFamily: "var(--g-font-sans)", fontSize: 12, fontWeight: 500,
@@ -166,12 +184,16 @@ export default function QuienesSomos() {
         backgroundImage: "linear-gradient(rgba(249,246,232,0.91), rgba(249,246,232,0.91)), url('/assets/photography/bufalas-pastoreo.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
-        backgroundAttachment: "fixed",
-        padding: "72px 56px",
+        backgroundAttachment: noParallax ? "scroll" : "fixed",
+        padding: secPad,
         borderTop: "1px solid var(--g-line)",
       }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 24, textAlign: "center" }}>
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: isMobile ? "repeat(3, 1fr)" : "repeat(5, 1fr)",
+            gap: 24, textAlign: "center",
+          }}>
             {[
               { name: "flask-conical", label: "Genética",       color: "#233653", delay: "0s" },
               { name: "sprout",        label: "Sabana",         color: "#627761", delay: "0.6s" },
@@ -207,8 +229,8 @@ export default function QuienesSomos() {
         backgroundImage: "linear-gradient(rgba(249,246,232,0.90), rgba(249,246,232,0.90)), url('/assets/photography/nelore-grupo.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
-        backgroundAttachment: "fixed",
-        padding: "72px 56px",
+        backgroundAttachment: noParallax ? "scroll" : "fixed",
+        padding: secPad,
         borderTop: "1px solid var(--g-line)",
       }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
@@ -221,7 +243,11 @@ export default function QuienesSomos() {
             <span style={{ flex: 1, height: 1, background: "var(--g-line)" }} />
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 22 }}>
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+            gap: isMobile ? 16 : 22,
+          }}>
             {[
               {
                 icon: "target",
@@ -244,8 +270,8 @@ export default function QuienesSomos() {
         backgroundImage: "linear-gradient(rgba(249,246,232,0.90), rgba(249,246,232,0.90)), url('/assets/photography/bufalas-grupo-pastura.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
-        backgroundAttachment: "fixed",
-        padding: "72px 56px",
+        backgroundAttachment: noParallax ? "scroll" : "fixed",
+        padding: secPad,
         borderTop: "1px solid var(--g-line)",
       }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
@@ -270,7 +296,11 @@ export default function QuienesSomos() {
             </div>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 18 }}>
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: isMobile ? "1fr" : isTablet ? "1fr 1fr" : "repeat(4, 1fr)",
+            gap: 18,
+          }}>
             {[
               { icon: "flame",        num: "01", title: "Pasión",         desc: "Caminamos hacia la excelencia en cada acción.",                    tone: "#233653", tint: "rgba(35,54,83,0.16)" },
               { icon: "shield-check", num: "02", title: "Transparencia",  desc: "Promovemos la confianza en todas las partes interesadas.",        tone: "#627761", tint: "rgba(98,119,97,0.18)" },
@@ -287,16 +317,18 @@ export default function QuienesSomos() {
         backgroundImage: "linear-gradient(rgba(40,55,42,0.88), rgba(40,55,42,0.88)), url('/assets/photography/bufalo-trabajo-palma.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
-        backgroundAttachment: "fixed",
-        padding: "96px 56px",
+        backgroundAttachment: noParallax ? "scroll" : "fixed",
+        padding: isMobile ? "64px 20px" : "96px 56px",
         borderTop: "1px solid var(--g-verde-800)", overflow: "hidden",
       }}>
-        <span aria-hidden="true" style={{
-          position: "absolute", top: 8, left: "50%", transform: "translateX(-50%)",
-          fontFamily: "var(--g-font-display)", fontSize: 360, lineHeight: 1,
-          color: "var(--g-verde-700)", opacity: 0.35, pointerEvents: "none",
-          userSelect: "none",
-        }}>"</span>
+        {!isMobile && (
+          <span aria-hidden="true" style={{
+            position: "absolute", top: 8, left: "50%", transform: "translateX(-50%)",
+            fontFamily: "var(--g-font-display)", fontSize: 360, lineHeight: 1,
+            color: "var(--g-verde-700)", opacity: 0.35, pointerEvents: "none",
+            userSelect: "none",
+          }}>"</span>
+        )}
 
         <div style={{ maxWidth: 880, margin: "0 auto", position: "relative", textAlign: "center" }}>
           <p style={{
@@ -358,7 +390,7 @@ function VideoCtaButton() {
         boxShadow: h ? "0 14px 30px rgba(8,16,26,0.18)" : "0 6px 16px rgba(8,16,26,0.10)",
         transition: "all 240ms var(--g-ease-soft)",
         transform: h ? "translateY(-2px)" : "none",
-        cursor: "pointer", width: "281px", height: "48px",
+        cursor: "pointer",
       }}
     >
       <span style={{

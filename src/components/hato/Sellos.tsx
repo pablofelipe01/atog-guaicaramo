@@ -1,6 +1,7 @@
 'use client'
 
 import { SectionTitle } from "./primitivos";
+import { useBreakpoint } from "@/hooks/useBreakpoint";
 
 const sellos = [
   { name: "CIA Melhoramento", src: "/assets/certs/cia-melhoramento.png" },
@@ -11,17 +12,27 @@ const sellos = [
 ];
 
 export default function Sellos() {
+  const bp = useBreakpoint();
+  const isMobile = bp === "mobile";
+  const isTablet = bp === "tablet";
+
+  const secPad  = isMobile ? "0 20px" : isTablet ? "0 32px" : "0 56px";
+  const gridCols = isMobile ? "repeat(2, 1fr)" : isTablet ? "repeat(3, 1fr)" : "repeat(5, 1fr)";
+
   return (
     <section style={{ background: "var(--g-bg)", padding: "80px 0" }}>
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 56px" }}>
+      <div style={{ maxWidth: 1440, margin: "0 auto", padding: secPad }}>
         <SectionTitle color="var(--g-verde-500)">Nuestros sellos de excelencia</SectionTitle>
         <div style={{
-          display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 24,
+          display: "grid",
+          gridTemplateColumns: gridCols,
+          gap: isMobile ? 16 : 24,
           alignItems: "center", justifyItems: "center", marginTop: 56,
         }}>
           {sellos.map((s) => (
             <div key={s.name} style={{
-              height: 160, display: "flex", alignItems: "center", justifyContent: "center", padding: "0 8px",
+              height: isMobile ? 110 : 160,
+              display: "flex", alignItems: "center", justifyContent: "center", padding: "0 8px",
             }}>
               <img src={s.src} alt={s.name} style={{
                 maxHeight: "100%", maxWidth: "100%", objectFit: "contain",

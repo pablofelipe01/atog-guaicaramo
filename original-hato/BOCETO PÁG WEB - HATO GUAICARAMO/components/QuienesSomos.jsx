@@ -32,7 +32,7 @@ function QuienesSomos() {
                 style={{ width: "100%", height: "100%", objectFit: "cover" }} />
 
                 {/* Floating "Ver video" button */}
-                <a href="https://www.instagram.com/hatoguaicaramo/" target="_blank" rel="noopener noreferrer"
+                <a href="https://www.instagram.com/reel/DMIYlnxRTdh/?igsh=cThsdWt5dnd4Nnhj" target="_blank" rel="noopener noreferrer"
                 style={{
                   position: "absolute", left: 20, bottom: 20,
                   textDecoration: "none",

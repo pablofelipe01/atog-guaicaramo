@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { HatoWordmark } from "./primitivos";
+import { useBreakpoint } from "@/hooks/useBreakpoint";
 
 interface HatoHeaderProps {
   onNavigate: (id: string) => void;
@@ -11,24 +12,40 @@ interface HatoHeaderProps {
 }
 
 const items = [
-  { id: "quienes",  label: "QUIÉNES SOMOS",             href: "/quienes-somos" },
-  { id: "practicas",label: "NUESTRAS BUENAS PRÁCTICAS"                         },
-  { id: "genetica", label: "GENÉTICA DE TALLA MUNDIAL"                         },
-  { id: "bufalos",  label: "NUESTROS BÚFALOS"                                  },
-  { id: "nutricion",label: "NUTRICIÓN ANIMAL",           href: "/nutricion-animal" },
+  { id: "quienes",   label: "QUIÉNES SOMOS",             href: "/quienes-somos" },
+  { id: "practicas", label: "NUESTRAS BUENAS PRÁCTICAS"                         },
+  { id: "genetica",  label: "GENÉTICA DE TALLA MUNDIAL"                         },
+  { id: "bufalos",   label: "NUESTROS BÚFALOS"                                  },
+  { id: "nutricion", label: "NUTRICIÓN ANIMAL",           href: "/nutricion-animal" },
 ];
 
-export default function HatoHeader({ onNavigate, active, inverse = true, forceLight = false }: HatoHeaderProps) {
-  const [scrolled, setScrolled] = useState(false);
+export default function HatoHeader({ onNavigate, active: _active, inverse: _inverse = true, forceLight = false }: HatoHeaderProps) {
+  const [scrolled, setScrolled]   = useState(false);
+  const [menuOpen, setMenuOpen]   = useState(false);
+  const bp = useBreakpoint();
+  const isMobile = bp === "mobile";
+  const isTablet = bp === "tablet";
+  const isSmall  = isMobile || isTablet;
+
   useEffect(() => {
     const f = () => setScrolled(window.scrollY > 80);
     window.addEventListener("scroll", f);
     return () => window.removeEventListener("scroll", f);
   }, []);
 
-  const onLight = forceLight || scrolled;
+  /* Cierra el drawer al navegar */
+  const handleNav = (id: string) => {
+    setMenuOpen(false);
+    onNavigate(id);
+  };
+
+  const onLight     = forceLight || scrolled;
   const logoInverse = !onLight;
-  const linkColor = onLight ? "var(--g-petroleo-700)" : "var(--g-beige)";
+  const linkColor   = onLight ? "var(--g-petroleo-700)" : "var(--g-beige)";
+
+  const containerPad = isMobile ? "14px 20px" : isTablet ? "16px 32px" : "20px 56px";
+  const logoHeight   = isMobile ? 36 : isTablet ? 44 : 52;
+  const navGap       = isTablet ? 18 : 30;
 
   return (
     <header style={{
@@ -39,33 +56,107 @@ export default function HatoHeader({ onNavigate, active, inverse = true, forceLi
       transition: "all 220ms var(--g-ease-soft)",
     }}>
       <div style={{
-        maxWidth: 1440, margin: "0 auto", padding: "20px 56px",
+        maxWidth: 1440, margin: "0 auto", padding: containerPad,
         display: "flex", alignItems: "center", justifyContent: "space-between", gap: 32,
       }}>
-        <a href="#" onClick={(e) => { e.preventDefault(); onNavigate("top"); }} style={{ textDecoration: "none" }}>
-          <HatoWordmark height={52} inverse={logoInverse} />
+        <a href="#" onClick={(e) => { e.preventDefault(); handleNav("top"); }} style={{ textDecoration: "none" }}>
+          <HatoWordmark height={logoHeight} inverse={logoInverse} />
         </a>
-        <nav style={{ display: "flex", alignItems: "center", gap: 30, flexWrap: "nowrap" }}>
-          {items.map((it) => (
-            <a
-              key={it.id}
-              href={it.href || "#" + it.id}
-              onClick={(e) => {
-                if (it.href) return; /* external/relative link — let the browser navigate */
-                e.preventDefault();
-                onNavigate(it.id);
-              }}
-              style={{
-                fontFamily: "var(--g-font-sans)", fontSize: 12, fontWeight: 500,
-                color: linkColor, textDecoration: "none", padding: "6px 0",
-                letterSpacing: "0.03em", whiteSpace: "nowrap",
-              }}
-            >
-              {it.label}
-            </a>
-          ))}
-        </nav>
+
+        {/* Nav horizontal — desktop y tablet wide */}
+        {!isSmall && (
+          <nav style={{ display: "flex", alignItems: "center", gap: navGap, flexWrap: "nowrap" }}>
+            {items.map((it) => (
+              <a
+                key={it.id}
+                href={it.href || "#" + it.id}
+                onClick={(e) => {
+                  if (it.href) return;
+                  e.preventDefault();
+                  handleNav(it.id);
+                }}
+                style={{
+                  fontFamily: "var(--g-font-sans)", fontSize: 12, fontWeight: 500,
+                  color: linkColor, textDecoration: "none", padding: "6px 0",
+                  letterSpacing: "0.03em", whiteSpace: "nowrap",
+                }}
+              >
+                {it.label}
+              </a>
+            ))}
+          </nav>
+        )}
+
+        {/* Botón hamburger — móvil y tablet */}
+        {isSmall && (
+          <button
+            onClick={() => setMenuOpen((o) => !o)}
+            aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
+            aria-expanded={menuOpen}
+            style={{
+              background: "transparent", border: "none", cursor: "pointer",
+              padding: 8, display: "flex", flexDirection: "column",
+              alignItems: "center", justifyContent: "center", gap: 5,
+              color: onLight ? "var(--g-petroleo-700)" : "var(--g-beige)",
+            }}
+          >
+            <span style={{
+              display: "block", width: 24, height: 2, background: "currentColor",
+              transformOrigin: "center",
+              transform: menuOpen ? "translateY(7px) rotate(45deg)" : "none",
+              transition: "transform 220ms var(--g-ease-soft)",
+            }} />
+            <span style={{
+              display: "block", width: 24, height: 2, background: "currentColor",
+              opacity: menuOpen ? 0 : 1,
+              transition: "opacity 180ms var(--g-ease-soft)",
+            }} />
+            <span style={{
+              display: "block", width: 24, height: 2, background: "currentColor",
+              transformOrigin: "center",
+              transform: menuOpen ? "translateY(-7px) rotate(-45deg)" : "none",
+              transition: "transform 220ms var(--g-ease-soft)",
+            }} />
+          </button>
+        )}
       </div>
+
+      {/* Drawer móvil / tablet */}
+      {isSmall && (
+        <nav
+          aria-hidden={!menuOpen}
+          style={{
+            position: "absolute", top: "100%", left: 0, right: 0,
+            background: "rgba(249,246,232,0.97)", backdropFilter: "blur(12px)",
+            borderBottom: menuOpen ? "1px solid var(--g-line)" : "none",
+            maxHeight: menuOpen ? 400 : 0,
+            overflow: "hidden",
+            transition: "max-height 320ms var(--g-ease-soft)",
+          }}
+        >
+          <div style={{ padding: menuOpen ? "12px 0 20px" : "0" }}>
+            {items.map((it) => (
+              <a
+                key={it.id}
+                href={it.href || "#" + it.id}
+                onClick={(e) => {
+                  if (!it.href) e.preventDefault();
+                  handleNav(it.id);
+                }}
+                style={{
+                  display: "block", padding: "14px 24px",
+                  fontFamily: "var(--g-font-sans)", fontSize: 13, fontWeight: 500,
+                  color: "var(--g-petroleo-700)", textDecoration: "none",
+                  letterSpacing: "0.06em", textTransform: "uppercase",
+                  borderBottom: "1px solid var(--g-line)",
+                }}
+              >
+                {it.label}
+              </a>
+            ))}
+          </div>
+        </nav>
+      )}
     </header>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { HatoBtn } from "./primitivos";
+import { useBreakpoint } from "@/hooks/useBreakpoint";
 
 type HeroSlide = {
   photo: string;
@@ -34,15 +35,26 @@ const HERO_SLIDES: HeroSlide[] = [
 
 export default function HatoHero() {
   const [idx, setIdx] = useState(0);
+  const bp = useBreakpoint();
+  const isMobile = bp === "mobile";
+  const isTablet = bp === "tablet";
+
   useEffect(() => {
     const t = setInterval(() => setIdx(i => (i + 1) % HERO_SLIDES.length), 7000);
     return () => clearInterval(t);
   }, []);
 
+  const hPad = isMobile ? 20 : isTablet ? 32 : 56;
+  const vPad = isMobile ? 80 : 110;
+
   return (
     <section style={{
-      position: "relative", height: "100vh", minHeight: 700, maxHeight: 900,
-      overflow: "hidden", background: "#1a2120",
+      position: "relative",
+      height: "100vh",
+      minHeight: isMobile ? 580 : 700,
+      maxHeight: 900,
+      overflow: "hidden",
+      background: "#1a2120",
     }} id="quienes">
 
       {/* Slides */}
@@ -68,16 +80,17 @@ export default function HatoHero() {
         </div>
       ))}
 
-      {/* Copy overlay (top of stack) */}
+      {/* Copy overlay */}
       <div style={{
-        position: "absolute", left: 56, right: 56, bottom: 110, top: 110,
+        position: "absolute",
+        left: hPad, right: hPad, bottom: vPad, top: vPad,
         display: "flex", flexDirection: "column", justifyContent: "flex-end",
         overflow: "hidden",
       }}>
-        <div style={{ maxWidth: 760 }}>
+        <div style={{ maxWidth: isMobile ? "100%" : 760 }}>
           <h1 style={{
             fontFamily: "var(--g-font-display)",
-            fontSize: "clamp(28px, 3.5vw, 58px)",
+            fontSize: isMobile ? "clamp(22px, 7vw, 32px)" : "clamp(28px, 3.5vw, 58px)",
             lineHeight: 1.18, letterSpacing: "-0.012em",
             color: "var(--g-beige)", fontWeight: 400, margin: 0,
             textWrap: "pretty",
@@ -85,14 +98,15 @@ export default function HatoHero() {
           }}>
             {HERO_SLIDES[idx].copy}
           </h1>
-          <div style={{ marginTop: 32 }}>
-            <HatoBtn variant="pillLight" size="lg">Ver más</HatoBtn>
+          <div style={{ marginTop: isMobile ? 20 : 32 }}>
+            <HatoBtn variant="pillLight" size={isMobile ? "md" : "lg"}>Ver más</HatoBtn>
           </div>
         </div>
 
         {/* Carousel dots */}
         <div style={{
-          marginTop: 52, display: "flex", gap: 12, alignItems: "center",
+          marginTop: isMobile ? 32 : 52,
+          display: "flex", gap: 12, alignItems: "center",
           fontFamily: "var(--g-font-sans)", fontSize: 11,
         }}>
           {HERO_SLIDES.map((_, i) => (

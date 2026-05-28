@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef } from "react";
 import type { CSSProperties } from "react";
 import { HatoIcon } from "./primitivos";
+import { useBreakpoint } from "@/hooks/useBreakpoint";
 
 /* ---------- Types ---------- */
 type Ingredient = { k: string; d: string; icon: string };
@@ -84,7 +85,7 @@ export default function NutricionAnimal() {
 }
 
 /* =====================================================================
-   1 · HERO — video de fondo
+   1 · HERO — video de fondo (sin cambios — ya es responsive)
 ===================================================================== */
 function NutricionHero() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -127,7 +128,7 @@ function NutricionHero() {
           zIndex: 0,
         }}
       >
-        <source src="/DJI_0837.MP4" type="video/mp4" />
+        <source src="/assets/illustrations/DJI_0837.MP4" type="video/mp4" />
       </video>
 
       <div style={{
@@ -157,7 +158,6 @@ function NutricionHero() {
           Soluciones nutricionales de alto rendimiento para el bienestar y productividad de su ganado.
         </p>
 
-        {/* Scroll hint */}
         <div style={{
           position: "absolute", bottom: 36, left: "50%", transform: "translateX(-50%)",
           display: "flex", flexDirection: "column", alignItems: "center", gap: 10,
@@ -189,21 +189,30 @@ function NutricionHero() {
    2 · NUESTRA FÁBRICA — manifest intro
 ===================================================================== */
 function FabricaIntro() {
+  const bp       = useBreakpoint();
+  const isMobile = bp === "mobile";
+  const isTablet = bp === "tablet";
+  const hPad     = isMobile ? "0 20px" : isTablet ? "0 32px" : "0 56px";
+
   return (
     <section id="nutricion" style={{
       position: "relative", background: "var(--g-bg)",
-      padding: "120px 0 80px",
+      padding: isMobile ? "72px 0 60px" : "120px 0 80px",
       borderTop: "1px solid var(--g-line)", overflow: "hidden",
     }}>
-      {/* Faint editorial column lines */}
       <div aria-hidden style={{
         position: "absolute", inset: 0,
         backgroundImage: "linear-gradient(90deg, transparent calc(50% - 0.5px), rgba(98,119,97,0.06) calc(50% - 0.5px), rgba(98,119,97,0.06) calc(50% + 0.5px), transparent calc(50% + 0.5px))",
         pointerEvents: "none",
       }} />
 
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 56px", position: "relative" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1.05fr 1fr", gap: 96, alignItems: "center" }}>
+      <div style={{ maxWidth: 1440, margin: "0 auto", padding: hPad, position: "relative" }}>
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: isMobile ? "1fr" : "1.05fr 1fr",
+          gap: isMobile ? 48 : 96,
+          alignItems: "center",
+        }}>
 
           {/* LEFT */}
           <div>
@@ -277,14 +286,14 @@ function FabricaIntro() {
           </div>
 
           {/* RIGHT */}
-          <FloatingPhoto />
+          <FloatingPhoto isMobile={isMobile} />
         </div>
       </div>
     </section>
   );
 }
 
-function FloatingPhoto() {
+function FloatingPhoto({ isMobile = false }: { isMobile?: boolean }) {
   const [ref, seen] = useReveal();
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
@@ -329,47 +338,50 @@ function FloatingPhoto() {
         }} />
       </div>
 
-      {/* Floating quote chip */}
-      <div style={{
-        position: "absolute", left: -28, bottom: 36, width: "82%",
-        background: "var(--g-petroleo-800)", color: "var(--g-beige)",
-        borderRadius: 14, padding: "22px 26px",
-        boxShadow: "0 24px 48px rgba(8,16,26,0.28)",
-        transform: "translateZ(40px)",
-      }}>
+      {/* Chips absolutas — ocultas en móvil para evitar overflow del viewport */}
+      {!isMobile && (
         <div style={{
-          fontFamily: "var(--g-font-sans)", fontSize: 10,
-          letterSpacing: "0.22em", textTransform: "uppercase",
-          color: "var(--g-verde-300)", marginBottom: 10,
-        }}>Filosofía</div>
-        <div style={{
-          fontFamily: "var(--g-font-display)", fontSize: 22,
-          lineHeight: 1.2, fontStyle: "italic", textWrap: "balance",
+          position: "absolute", left: -28, bottom: 36, width: "82%",
+          background: "var(--g-petroleo-800)", color: "var(--g-beige)",
+          borderRadius: 14, padding: "22px 26px",
+          boxShadow: "0 24px 48px rgba(8,16,26,0.28)",
+          transform: "translateZ(40px)",
         }}>
-          Lo que come el animal define su futuro.
+          <div style={{
+            fontFamily: "var(--g-font-sans)", fontSize: 10,
+            letterSpacing: "0.22em", textTransform: "uppercase",
+            color: "var(--g-verde-300)", marginBottom: 10,
+          }}>Filosofía</div>
+          <div style={{
+            fontFamily: "var(--g-font-display)", fontSize: 22,
+            lineHeight: 1.2, fontStyle: "italic", textWrap: "balance",
+          }}>
+            Lo que come el animal define su futuro.
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* Floating numeric stat top-right */}
-      <div style={{
-        position: "absolute", top: 24, right: -28,
-        background: "var(--g-beige)", border: "1px solid var(--g-line)",
-        borderRadius: 14, padding: "16px 20px",
-        boxShadow: "0 16px 40px rgba(8,16,26,0.10)",
-        transform: "translateZ(60px)", minWidth: 160,
-      }}>
+      {!isMobile && (
         <div style={{
-          fontFamily: "var(--g-font-sans)", fontSize: 10,
-          letterSpacing: "0.22em", textTransform: "uppercase",
-          color: "var(--g-verde-700)", marginBottom: 6,
-        }}>Planta propia</div>
-        <div style={{ fontFamily: "var(--g-font-display)", fontSize: 28, color: "var(--g-petroleo-900)", lineHeight: 1 }}>
-          100 %
+          position: "absolute", top: 24, right: -28,
+          background: "var(--g-beige)", border: "1px solid var(--g-line)",
+          borderRadius: 14, padding: "16px 20px",
+          boxShadow: "0 16px 40px rgba(8,16,26,0.10)",
+          transform: "translateZ(60px)", minWidth: 160,
+        }}>
+          <div style={{
+            fontFamily: "var(--g-font-sans)", fontSize: 10,
+            letterSpacing: "0.22em", textTransform: "uppercase",
+            color: "var(--g-verde-700)", marginBottom: 6,
+          }}>Planta propia</div>
+          <div style={{ fontFamily: "var(--g-font-display)", fontSize: 28, color: "var(--g-petroleo-900)", lineHeight: 1 }}>
+            100 %
+          </div>
+          <div style={{ fontFamily: "var(--g-font-sans)", fontSize: 12, color: "var(--g-cafe-700)", marginTop: 4 }}>
+            formulación in-situ
+          </div>
         </div>
-        <div style={{ fontFamily: "var(--g-font-sans)", fontSize: 12, color: "var(--g-cafe-700)", marginTop: 4 }}>
-          formulación in-situ
-        </div>
-      </div>
+      )}
     </div>
   );
 }
@@ -378,6 +390,11 @@ function FloatingPhoto() {
    3 · MANIFESTO — dark band
 ===================================================================== */
 function ManifestoFabrica() {
+  const bp       = useBreakpoint();
+  const isMobile = bp === "mobile";
+  const isTablet = bp === "tablet";
+  const hPad     = isMobile ? "0 20px" : isTablet ? "0 32px" : "0 56px";
+
   const lines = [
     { t: "Aquí no formulamos productos.", strike: true },
     { t: "Diseñamos resultados.",          accent: true },
@@ -386,7 +403,9 @@ function ManifestoFabrica() {
   return (
     <section style={{
       position: "relative", background: "var(--g-petroleo-900)",
-      color: "var(--g-beige)", padding: "140px 0", overflow: "hidden",
+      color: "var(--g-beige)",
+      padding: isMobile ? "80px 0" : "140px 0",
+      overflow: "hidden",
     }}>
       <div aria-hidden style={{
         position: "absolute", inset: 0,
@@ -413,7 +432,7 @@ function ManifestoFabrica() {
         }
       `}</style>
 
-      <div style={{ position: "relative", maxWidth: 1440, margin: "0 auto", padding: "0 56px", textAlign: "center" }}>
+      <div style={{ position: "relative", maxWidth: 1440, margin: "0 auto", padding: hPad, textAlign: "center" }}>
         <Reveal>
           <div aria-hidden style={{
             width: 80, height: 1, background: "var(--g-verde-300)",
@@ -477,7 +496,12 @@ function ManifestoFabrica() {
 ===================================================================== */
 function SalProteinada() {
   const [active, setActive] = useState(0);
-  const [auto, setAuto] = useState(true);
+  const [auto, setAuto]     = useState(true);
+
+  const bp       = useBreakpoint();
+  const isMobile = bp === "mobile";
+  const isTablet = bp === "tablet";
+  const hPad     = isMobile ? "0 20px" : isTablet ? "0 32px" : "0 56px";
 
   useEffect(() => {
     if (!auto) return;
@@ -488,11 +512,22 @@ function SalProteinada() {
   }, [auto]);
 
   return (
-    <section style={{ position: "relative", background: "var(--g-bg)", padding: "140px 0 120px", overflow: "hidden" }}>
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 56px" }}>
+    <section style={{
+      position: "relative", background: "var(--g-bg)",
+      padding: isMobile ? "72px 0 60px" : "140px 0 120px",
+      overflow: "hidden",
+    }}>
+      <div style={{ maxWidth: 1440, margin: "0 auto", padding: hPad }}>
 
         {/* Section header */}
-        <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 96, alignItems: "end", marginBottom: 80 }}>
+        <div style={{
+          display: isMobile ? "flex" : "grid",
+          flexDirection: isMobile ? "column" : undefined,
+          gridTemplateColumns: isMobile ? undefined : "auto 1fr",
+          gap: isMobile ? 12 : 96,
+          alignItems: isMobile ? "flex-start" : "end",
+          marginBottom: isMobile ? 40 : 80,
+        }}>
           <Reveal>
             <div style={{
               fontFamily: "var(--g-font-sans)", fontWeight: 500,
@@ -515,7 +550,12 @@ function SalProteinada() {
           </div>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1.05fr", gap: 80, alignItems: "center" }}>
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: isMobile ? "1fr" : "1fr 1.05fr",
+          gap: isMobile ? 48 : 80,
+          alignItems: "center",
+        }}>
 
           {/* LEFT — manifest copy */}
           <div>
@@ -598,7 +638,6 @@ function SalProteinada() {
               </div>
             </Reveal>
 
-            {/* Ingredient chips */}
             <Reveal delay={420}>
               <IngredientChips
                 ingredients={SAL_INGREDIENTS}
@@ -658,14 +697,14 @@ function IngredientChips({ ingredients, active, onHover, onLeave }: {
   );
 }
 
-function SalBagView({ active, ingredients, onHover, onLeave }: {
+function SalBagView({ active: _active, ingredients: _ingredients, onHover: _onHover, onLeave }: {
   active: number;
   ingredients: Ingredient[];
   onHover: (i: number) => void;
   onLeave: () => void;
 }) {
-  const [ref, seen] = useReveal();
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [ref, seen]       = useReveal();
+  const [tilt, setTilt]   = useState({ x: 0, y: 0 });
   const [btnHover, setBtnHover] = useState(false);
 
   const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -683,7 +722,6 @@ function SalBagView({ active, ingredients, onHover, onLeave }: {
       transform: `translateY(${seen ? 0 : 24}px)`,
       transition: "opacity 900ms var(--g-ease-soft), transform 600ms var(--g-ease-soft)",
     }}>
-      {/* Tilt stage */}
       <div
         onMouseMove={onMove}
         onMouseLeave={handleLeave}
@@ -709,10 +747,9 @@ function SalBagView({ active, ingredients, onHover, onLeave }: {
         />
       </div>
 
-      {/* Download PDF CTA */}
       <a
-        href="/assets/sal-proteinada-ficha.pdf"
-        download="Hato-Guaicaramo-Sal-Proteinada.pdf"
+        href="/assets/pdf/Raciones HG Hato Guaicaramo.pdf"
+        download="Raciones HG Hato Guaicaramo.pdf"
         onMouseEnter={() => setBtnHover(true)}
         onMouseLeave={() => setBtnHover(false)}
         style={{
@@ -758,14 +795,19 @@ function SalBagView({ active, ingredients, onHover, onLeave }: {
    5 · PASTOS BRACHIARIA HUMIDICOLA
 ===================================================================== */
 function PastosBrachiaria() {
-  const SECTORS = 6;
+  const SECTORS        = 6;
   const DAYS_PER_SECTOR = 28;
-  const TICK_MS = 220;
+  const TICK_MS        = 220;
 
-  const [day, setDay] = useState(1);
-  const grazing = Math.floor((day - 1) / DAYS_PER_SECTOR);
-  const dayInSector = (day - 1) % DAYS_PER_SECTOR + 1;
-  const totalDays = SECTORS * DAYS_PER_SECTOR;
+  const [day, setDay]   = useState(1);
+  const grazing         = Math.floor((day - 1) / DAYS_PER_SECTOR);
+  const dayInSector     = (day - 1) % DAYS_PER_SECTOR + 1;
+  const totalDays       = SECTORS * DAYS_PER_SECTOR;
+
+  const bp       = useBreakpoint();
+  const isMobile = bp === "mobile";
+  const isTablet = bp === "tablet";
+  const hPad     = isMobile ? "0 20px" : isTablet ? "0 32px" : "0 56px";
 
   useEffect(() => {
     const id = setInterval(() => setDay((d) => d % totalDays + 1), TICK_MS);
@@ -775,9 +817,10 @@ function PastosBrachiaria() {
   return (
     <section style={{
       position: "relative", background: "var(--g-petroleo-900)",
-      color: "var(--g-beige)", padding: "140px 0 0", overflow: "hidden",
+      color: "var(--g-beige)",
+      padding: isMobile ? "72px 0 0" : "140px 0 0",
+      overflow: "hidden",
     }}>
-      {/* Faint photo backdrop */}
       <div aria-hidden style={{
         position: "absolute", inset: 0,
         backgroundImage: "url('/assets/photography/pastura-amanecer.jpg')",
@@ -789,9 +832,16 @@ function PastosBrachiaria() {
         background: "linear-gradient(180deg, rgba(8,16,26,0.85) 0%, rgba(8,16,26,0.75) 60%, rgba(8,16,26,0.95) 100%)",
       }} />
 
-      <div style={{ position: "relative", maxWidth: 1440, margin: "0 auto", padding: "0 56px" }}>
-        {/* Header */}
-        <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 96, alignItems: "end", marginBottom: 80 }}>
+      <div style={{ position: "relative", maxWidth: 1440, margin: "0 auto", padding: hPad }}>
+        {/* Header — columna única en móvil */}
+        <div style={{
+          display: isMobile ? "flex" : "grid",
+          flexDirection: isMobile ? "column" : undefined,
+          gridTemplateColumns: isMobile ? undefined : "auto 1fr",
+          gap: isMobile ? 12 : 96,
+          alignItems: isMobile ? "flex-start" : "end",
+          marginBottom: isMobile ? 40 : 80,
+        }}>
           <Reveal>
             <div style={{
               fontFamily: "var(--g-font-sans)", fontSize: 11, fontWeight: 500,
@@ -814,12 +864,19 @@ function PastosBrachiaria() {
           </div>
         </div>
 
-        {/* Body — diagram + copy */}
-        <div style={{ display: "grid", gridTemplateColumns: "1.1fr 1fr", gap: 96, alignItems: "center", paddingBottom: 120 }}>
+        {/* Body — diagrama + copy */}
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: isMobile ? "1fr" : "1.1fr 1fr",
+          gap: isMobile ? 64 : 96,
+          alignItems: "center",
+          paddingBottom: isMobile ? 60 : 120,
+        }}>
           <PastureRotation
             grazing={grazing} sectors={SECTORS}
             day={day} dayInSector={dayInSector}
             daysPerSector={DAYS_PER_SECTOR} totalDays={totalDays}
+            isMobile={isMobile}
           />
 
           {/* Copy */}
@@ -887,7 +944,8 @@ function PastosBrachiaria() {
       {/* Closing image band */}
       <div style={{
         position: "relative", width: "100%",
-        marginTop: 200, aspectRatio: "24 / 9", maxHeight: 460, overflow: "hidden",
+        marginTop: isMobile ? 60 : 200,
+        aspectRatio: "24 / 9", maxHeight: 460, overflow: "hidden",
       }}>
         <img
           src="/assets/photography/pastura-sabana.jpg"
@@ -910,13 +968,13 @@ function PastosBrachiaria() {
 }
 
 /* ---------- PastureRotation SVG ---------- */
-function PastureRotation({ grazing, sectors, day, dayInSector, daysPerSector, totalDays }: {
+function PastureRotation({ grazing, sectors, day: _day, dayInSector, daysPerSector, totalDays: _totalDays, isMobile }: {
   grazing: number; sectors: number; day: number; dayInSector: number;
-  daysPerSector: number; totalDays: number;
+  daysPerSector: number; totalDays: number; isMobile: boolean;
 }) {
-  const size = 520;
-  const cx = size / 2;
-  const cy = size / 2;
+  const size   = 520;
+  const cx     = size / 2;
+  const cy     = size / 2;
   const rOuter = 230;
   const rInner = 90;
   const [ref, seen] = useReveal();
@@ -925,9 +983,9 @@ function PastureRotation({ grazing, sectors, day, dayInSector, daysPerSector, to
   type SectorState = { fill: string; label: string; txt: string };
   const sectorState = (i: number): SectorState => {
     const diff = (i - grazing + sectors) % sectors;
-    if (diff === 0) return { fill: "var(--g-verde-500)", label: "Pastoreo",          txt: "var(--g-beige)" };
-    if (diff === 1) return { fill: "rgba(183,173,145,0.55)", label: "Recuperación",  txt: "var(--g-petroleo-900)" };
-    return                 { fill: "rgba(154,173,153,0.22)", label: "En reposo",     txt: "var(--g-beige)" };
+    if (diff === 0) return { fill: "var(--g-verde-500)", label: "Pastoreo",         txt: "var(--g-beige)" };
+    if (diff === 1) return { fill: "rgba(183,173,145,0.55)", label: "Recuperación", txt: "var(--g-petroleo-900)" };
+    return                 { fill: "rgba(154,173,153,0.22)", label: "En reposo",    txt: "var(--g-beige)" };
   };
 
   const daysUntilGrazing = (i: number) => {
@@ -936,198 +994,222 @@ function PastureRotation({ grazing, sectors, day, dayInSector, daysPerSector, to
     return (diff - 1) * daysPerSector + (daysPerSector - dayInSector + 1);
   };
 
-  /* toFixed(3) produces identical strings in Node and V8 regardless of the
-     last-digit float differences that Math.sin/cos can produce in each runtime. */
   const f = (n: number) => n.toFixed(3);
 
   const arcPath = (i: number) => {
     const startAng = i / sectors * Math.PI * 2 - Math.PI / 2;
     const endAng   = (i + 1) / sectors * Math.PI * 2 - Math.PI / 2;
-    const xs1 = f(cx + Math.cos(startAng) * rOuter);
-    const ys1 = f(cy + Math.sin(startAng) * rOuter);
-    const xe1 = f(cx + Math.cos(endAng)   * rOuter);
-    const ye1 = f(cy + Math.sin(endAng)   * rOuter);
-    const xs2 = f(cx + Math.cos(startAng) * rInner);
-    const ys2 = f(cy + Math.sin(startAng) * rInner);
-    const xe2 = f(cx + Math.cos(endAng)   * rInner);
-    const ye2 = f(cy + Math.sin(endAng)   * rInner);
+    const xs1 = f(cx + Math.cos(startAng) * rOuter); const ys1 = f(cy + Math.sin(startAng) * rOuter);
+    const xe1 = f(cx + Math.cos(endAng)   * rOuter); const ye1 = f(cy + Math.sin(endAng)   * rOuter);
+    const xs2 = f(cx + Math.cos(startAng) * rInner); const ys2 = f(cy + Math.sin(startAng) * rInner);
+    const xe2 = f(cx + Math.cos(endAng)   * rInner); const ye2 = f(cy + Math.sin(endAng)   * rInner);
     return `M ${xs1} ${ys1} A ${rOuter} ${rOuter} 0 0 1 ${xe1} ${ye1} L ${xe2} ${ye2} A ${rInner} ${rInner} 0 0 0 ${xs2} ${ys2} Z`;
   };
 
+  /* ---- Shared sub-elements ---- */
+  const regimeRows = [
+    { kind: "Con fertiriego",  grazing: "1 día",    rest: "20 días",    tone: "var(--g-verde-500)" },
+    { kind: "Sin fertiriego",  grazing: "1–2 días", rest: "30–35 días", tone: "rgba(183,173,145,0.85)" },
+  ];
+
+  const regimeCardsEl = (
+    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+      {regimeRows.map((r) => (
+        <div key={r.kind} style={{
+          background: "linear-gradient(180deg, rgba(249,246,232,0.06) 0%, rgba(249,246,232,0.02) 100%)",
+          border: "1px solid rgba(249,246,232,0.14)",
+          borderLeft: "3px solid " + r.tone,
+          borderRadius: 10, padding: "16px 18px",
+          boxShadow: "0 18px 36px rgba(0,0,0,0.25)",
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14, paddingBottom: 12, borderBottom: "1px dashed rgba(249,246,232,0.16)" }}>
+            <span style={{ width: 10, height: 10, borderRadius: 999, background: r.tone, flexShrink: 0 }} />
+            <div style={{ fontFamily: "var(--g-font-sans)", fontSize: 11, fontWeight: 500, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--g-beige)" }}>
+              {r.kind}
+            </div>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, fontFamily: "var(--g-font-sans)", fontSize: 11, color: "rgba(249,246,232,0.82)" }}>
+            <span>
+              <span style={{ display: "block", fontSize: 9, letterSpacing: "0.16em", textTransform: "uppercase", opacity: 0.55, marginBottom: 4 }}>Pastoreo</span>
+              <b style={{ fontFamily: "var(--g-font-display)", fontWeight: 400, fontSize: 19, color: "var(--g-beige)", lineHeight: 1 }}>{r.grazing}</b>
+            </span>
+            <span>
+              <span style={{ display: "block", fontSize: 9, letterSpacing: "0.16em", textTransform: "uppercase", opacity: 0.55, marginBottom: 4 }}>Descanso</span>
+              <b style={{ fontFamily: "var(--g-font-display)", fontWeight: 400, fontSize: 19, color: "var(--g-beige)", lineHeight: 1 }}>{r.rest}</b>
+            </span>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
+  const labelEl = (
+    <div style={{
+      textAlign: "center", fontFamily: "var(--g-font-sans)", fontSize: 10,
+      letterSpacing: "0.24em", textTransform: "uppercase", color: "var(--g-verde-300)",
+    }}>
+      Pasto · Búfalos
+    </div>
+  );
+
+  const legendEl = (
+    <div style={{
+      display: "flex", justifyContent: "center", gap: 24, flexWrap: "wrap",
+      fontFamily: "var(--g-font-sans)", fontSize: 11,
+      letterSpacing: "0.06em", color: "rgba(249,246,232,0.78)",
+    }}>
+      {[
+        { c: "var(--g-verde-500)",          l: "Pastoreo",     d: "Vacas comiendo" },
+        { c: "rgba(183,173,145,0.85)",       l: "Recuperación", d: "Próximo turno" },
+        { c: "rgba(154,173,153,0.35)",       l: "En reposo",    d: "Forraje creciendo" },
+      ].map((it) => (
+        <div key={it.l} style={{ display: "flex", alignItems: "center", gap: 8 }} title={it.d}>
+          <span style={{ width: 12, height: 12, borderRadius: 3, background: it.c, display: "inline-block" }} />
+          {it.l}
+        </div>
+      ))}
+    </div>
+  );
+
   return (
     <div ref={ref} style={{
-      position: "relative", aspectRatio: "1 / 1", maxWidth: size, margin: "0 auto",
+      position: "relative", maxWidth: size, margin: "0 auto",
       opacity: seen ? 1 : 0,
       transform: `scale(${seen ? 1 : 0.92}) rotate(${seen ? 0 : -8}deg)`,
       transition: "opacity 900ms var(--g-ease-soft), transform 900ms var(--g-ease-soft)",
     }}>
-      <svg viewBox={`0 0 ${size} ${size}`} style={{ width: "100%", height: "100%", display: "block" }}>
-        <defs>
-          <radialGradient id="pastureCenter" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#1f3050" />
-            <stop offset="100%" stopColor="#0d1726" />
-          </radialGradient>
-        </defs>
+      {/* SVG cuadrado */}
+      <div style={{ position: "relative", aspectRatio: "1 / 1" }}>
+        <svg viewBox={`0 0 ${size} ${size}`} style={{ width: "100%", height: "100%", display: "block" }}>
+          <defs>
+            <radialGradient id="pastureCenter" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#1f3050" />
+              <stop offset="100%" stopColor="#0d1726" />
+            </radialGradient>
+          </defs>
 
-        <circle cx={cx} cy={cy} r={rOuter + 24} fill="none" stroke="rgba(249,246,232,0.14)" strokeDasharray="2 8" />
+          <circle cx={cx} cy={cy} r={rOuter + 24} fill="none" stroke="rgba(249,246,232,0.14)" strokeDasharray="2 8" />
 
-        {Array.from({ length: sectors }).map((_, i) => {
-          const s = sectorState(i);
-          const isHover = hovered === i;
-          return (
-            <g key={i}
-              onMouseEnter={() => setHovered(i)}
-              onMouseLeave={() => setHovered((h) => h === i ? null : h)}
-              style={{ cursor: "default" }}
-            >
-              <path
-                d={arcPath(i)}
-                fill={s.fill}
-                stroke="var(--g-petroleo-900)"
-                strokeWidth="2"
-                style={{
-                  transition: "fill 700ms var(--g-ease-soft), filter 200ms var(--g-ease-soft)",
-                  filter: isHover ? "brightness(1.18)" : "none",
-                }}
-              />
-              {(() => {
-                const ang = (i + 0.5) / sectors * Math.PI * 2 - Math.PI / 2;
-                const tr = (rOuter + rInner) / 2;
-                const tx = f(cx + Math.cos(ang) * tr);
-                const ty = f(cy + Math.sin(ang) * tr);
-                return (
-                  <text
-                    x={tx} y={ty}
-                    textAnchor="middle" dominantBaseline="central"
-                    fontFamily="var(--g-font-display)" fontSize="22"
-                    fill={s.txt}
-                    style={{ transition: "fill 700ms var(--g-ease-soft)", pointerEvents: "none" }}
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </text>
-                );
-              })()}
-            </g>
-          );
-        })}
+          {Array.from({ length: sectors }).map((_, i) => {
+            const s = sectorState(i);
+            const isHover = hovered === i;
+            return (
+              <g key={i}
+                onMouseEnter={() => setHovered(i)}
+                onMouseLeave={() => setHovered((h) => h === i ? null : h)}
+                style={{ cursor: "default" }}
+              >
+                <path
+                  d={arcPath(i)}
+                  fill={s.fill}
+                  stroke="var(--g-petroleo-900)"
+                  strokeWidth="2"
+                  style={{
+                    transition: "fill 700ms var(--g-ease-soft), filter 200ms var(--g-ease-soft)",
+                    filter: isHover ? "brightness(1.18)" : "none",
+                  }}
+                />
+                {(() => {
+                  const ang = (i + 0.5) / sectors * Math.PI * 2 - Math.PI / 2;
+                  const tr  = (rOuter + rInner) / 2;
+                  const tx  = f(cx + Math.cos(ang) * tr);
+                  const ty  = f(cy + Math.sin(ang) * tr);
+                  return (
+                    <text
+                      x={tx} y={ty}
+                      textAnchor="middle" dominantBaseline="central"
+                      fontFamily="var(--g-font-display)" fontSize="22"
+                      fill={s.txt}
+                      style={{ transition: "fill 700ms var(--g-ease-soft)", pointerEvents: "none" }}
+                    >
+                      {String(i + 1).padStart(2, "0")}
+                    </text>
+                  );
+                })()}
+              </g>
+            );
+          })}
 
-        <circle cx={cx} cy={cy} r={rInner - 4} fill="url(#pastureCenter)" stroke="rgba(249,246,232,0.18)" />
+          <circle cx={cx} cy={cy} r={rInner - 4} fill="url(#pastureCenter)" stroke="rgba(249,246,232,0.18)" />
 
-        {/* Rotating indicator arm */}
-        <g style={{
-          transformOrigin: `${cx}px ${cy}px`,
-          transform: `rotate(${(grazing + 0.5) * (360 / sectors)}deg)`,
-          transition: "transform 900ms var(--g-ease-soft)",
+          <g style={{
+            transformOrigin: `${cx}px ${cy}px`,
+            transform: `rotate(${(grazing + 0.5) * (360 / sectors)}deg)`,
+            transition: "transform 900ms var(--g-ease-soft)",
+          }}>
+            <line x1={cx} y1={cy} x2={cx} y2={cy - rOuter + 4} stroke="var(--g-verde-300)" strokeWidth="2" />
+            <circle cx={cx} cy={cy - rOuter + 4} r={6} fill="var(--g-verde-300)" />
+          </g>
+          <circle cx={cx} cy={cy} r={6} fill="var(--g-verde-300)" />
+        </svg>
+
+        {/* Buffalo icon */}
+        <div style={{
+          position: "absolute", left: "50%", top: "50%",
+          transform: "translate(-50%, -50%)",
+          textAlign: "center", pointerEvents: "none",
+          width: 150, display: "flex", alignItems: "center", justifyContent: "center",
         }}>
-          <line x1={cx} y1={cy} x2={cx} y2={cy - rOuter + 4} stroke="var(--g-verde-300)" strokeWidth="2" />
-          <circle cx={cx} cy={cy - rOuter + 4} r={6} fill="var(--g-verde-300)" />
-        </g>
-        <circle cx={cx} cy={cy} r={6} fill="var(--g-verde-300)" />
-      </svg>
+          <img
+            src="/assets/photography/bufalo-line-white.png"
+            alt="Búfalo"
+            style={{ width: 96, height: "auto", display: "block", opacity: 0.92,
+              filter: "drop-shadow(0 4px 14px rgba(0,0,0,0.35))" }}
+          />
+        </div>
 
-      {/* Buffalo icon */}
-      <div style={{
-        position: "absolute", left: "50%", top: "50%",
-        transform: "translate(-50%, -50%)",
-        textAlign: "center", pointerEvents: "none",
-        width: 150, display: "flex", alignItems: "center", justifyContent: "center",
-      }}>
-        <img
-          src="/assets/photography/bufalo-line-white.png"
-          alt="Búfalo"
-          style={{ width: 96, height: "auto", display: "block", opacity: 0.92,
-            filter: "drop-shadow(0 4px 14px rgba(0,0,0,0.35))" }}
-        />
-      </div>
-
-      {/* Sector hover tooltip */}
-      {hovered != null && (() => {
-        const s = sectorState(hovered);
-        const wait = daysUntilGrazing(hovered);
-        return (
-          <div style={{
-            position: "absolute", top: -8, left: "50%",
-            transform: "translate(-50%, -100%)",
-            background: "var(--g-beige)", color: "var(--g-petroleo-900)",
-            padding: "10px 14px", borderRadius: 10,
-            fontFamily: "var(--g-font-sans)", fontSize: 12,
-            whiteSpace: "nowrap", boxShadow: "0 14px 30px rgba(0,0,0,0.35)",
-            zIndex: 3, pointerEvents: "none",
-          }}>
-            <div style={{ fontSize: 9, letterSpacing: "0.20em", textTransform: "uppercase", color: "var(--g-verde-700)", marginBottom: 3 }}>
-              Potrero {String(hovered + 1).padStart(2, "0")}
-            </div>
-            <div style={{ fontWeight: 500, marginBottom: 2 }}>{s.label}</div>
-            <div style={{ color: "var(--g-cafe-700)", fontSize: 11 }}>
-              {wait === 0 ? `Día ${dayInSector} de ${daysPerSector}` : `En ${wait} días entra al pastoreo`}
-            </div>
-          </div>
-        );
-      })()}
-
-      {/* Rotation regime cards */}
-      <div style={{
-        position: "absolute", left: "50%", transform: "translateX(-50%)",
-        bottom: -260,
-        display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16,
-        width: 480, maxWidth: "100%",
-      }}>
-        {[
-          { kind: "Con fertiriego",  grazing: "1 día",    rest: "20 días",    tone: "var(--g-verde-500)" },
-          { kind: "Sin fertiriego",  grazing: "1–2 días", rest: "30–35 días", tone: "rgba(183,173,145,0.85)" },
-        ].map((r) => (
-          <div key={r.kind} style={{
-            background: "linear-gradient(180deg, rgba(249,246,232,0.06) 0%, rgba(249,246,232,0.02) 100%)",
-            border: "1px solid rgba(249,246,232,0.14)",
-            borderLeft: "3px solid " + r.tone,
-            borderRadius: 10, padding: "16px 18px",
-            boxShadow: "0 18px 36px rgba(0,0,0,0.25)",
-          }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14, paddingBottom: 12, borderBottom: "1px dashed rgba(249,246,232,0.16)" }}>
-              <span style={{ width: 10, height: 10, borderRadius: 999, background: r.tone, flexShrink: 0 }} />
-              <div style={{ fontFamily: "var(--g-font-sans)", fontSize: 11, fontWeight: 500, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--g-beige)" }}>
-                {r.kind}
+        {/* Sector hover tooltip */}
+        {hovered != null && (() => {
+          const s    = sectorState(hovered);
+          const wait = daysUntilGrazing(hovered);
+          return (
+            <div style={{
+              position: "absolute", top: -8, left: "50%",
+              transform: "translate(-50%, -100%)",
+              background: "var(--g-beige)", color: "var(--g-petroleo-900)",
+              padding: "10px 14px", borderRadius: 10,
+              fontFamily: "var(--g-font-sans)", fontSize: 12,
+              whiteSpace: "nowrap", boxShadow: "0 14px 30px rgba(0,0,0,0.35)",
+              zIndex: 3, pointerEvents: "none",
+            }}>
+              <div style={{ fontSize: 9, letterSpacing: "0.20em", textTransform: "uppercase", color: "var(--g-verde-700)", marginBottom: 3 }}>
+                Potrero {String(hovered + 1).padStart(2, "0")}
+              </div>
+              <div style={{ fontWeight: 500, marginBottom: 2 }}>{s.label}</div>
+              <div style={{ color: "var(--g-cafe-700)", fontSize: 11 }}>
+                {wait === 0 ? `Día ${dayInSector} de ${daysPerSector}` : `En ${wait} días entra al pastoreo`}
               </div>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, fontFamily: "var(--g-font-sans)", fontSize: 11, color: "rgba(249,246,232,0.82)" }}>
-              <span>
-                <span style={{ display: "block", fontSize: 9, letterSpacing: "0.16em", textTransform: "uppercase", opacity: 0.55, marginBottom: 4 }}>Pastoreo</span>
-                <b style={{ fontFamily: "var(--g-font-display)", fontWeight: 400, fontSize: 19, color: "var(--g-beige)", lineHeight: 1 }}>{r.grazing}</b>
-              </span>
-              <span>
-                <span style={{ display: "block", fontSize: 9, letterSpacing: "0.16em", textTransform: "uppercase", opacity: 0.55, marginBottom: 4 }}>Descanso</span>
-                <b style={{ fontFamily: "var(--g-font-display)", fontWeight: 400, fontSize: 19, color: "var(--g-beige)", lineHeight: 1 }}>{r.rest}</b>
-              </span>
-            </div>
-          </div>
-        ))}
+          );
+        })()}
       </div>
 
-      {/* Label + legend */}
-      <div style={{
-        position: "absolute", left: 0, right: 0, bottom: -34,
-        textAlign: "center", fontFamily: "var(--g-font-sans)", fontSize: 10,
-        letterSpacing: "0.24em", textTransform: "uppercase", color: "var(--g-verde-300)",
-      }}>
-        Pasto · Búfalos
-      </div>
-      <div style={{
-        position: "absolute", left: 0, right: 0, bottom: -76,
-        display: "flex", justifyContent: "center", gap: 24,
-        fontFamily: "var(--g-font-sans)", fontSize: 11,
-        letterSpacing: "0.06em", color: "rgba(249,246,232,0.78)",
-      }}>
-        {[
-          { c: "var(--g-verde-500)",          l: "Pastoreo",    d: "Vacas comiendo" },
-          { c: "rgba(183,173,145,0.85)",       l: "Recuperación",d: "Próximo turno" },
-          { c: "rgba(154,173,153,0.35)",       l: "En reposo",   d: "Forraje creciendo" },
-        ].map((it) => (
-          <div key={it.l} style={{ display: "flex", alignItems: "center", gap: 8 }} title={it.d}>
-            <span style={{ width: 12, height: 12, borderRadius: 3, background: it.c, display: "inline-block" }} />
-            {it.l}
+      {/* Móvil: label + leyenda + tarjetas en flujo normal */}
+      {isMobile && (
+        <div style={{ marginTop: 28 }}>
+          {labelEl}
+          <div style={{ marginTop: 12 }}>{legendEl}</div>
+          <div style={{ marginTop: 24 }}>{regimeCardsEl}</div>
+        </div>
+      )}
+
+      {/* Desktop: posición absoluta bajo el SVG (comportamiento original) */}
+      {!isMobile && (
+        <>
+          <div style={{
+            position: "absolute", left: "50%", transform: "translateX(-50%)",
+            bottom: -260, width: 480, maxWidth: "100%",
+          }}>
+            {regimeCardsEl}
           </div>
-        ))}
-      </div>
+          <div style={{ position: "absolute", left: 0, right: 0, bottom: -34 }}>
+            {labelEl}
+          </div>
+          <div style={{ position: "absolute", left: 0, right: 0, bottom: -76 }}>
+            {legendEl}
+          </div>
+        </>
+      )}
     </div>
   );
 }

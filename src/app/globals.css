@@ -450,3 +450,21 @@ body {
   outline-offset: 3px;
   border-radius: 4px;
 }
+
+/* ============================================================
+   RESPONSIVE GLOBALS — Option B (JS breakpoints)
+   ============================================================ */
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.video-hero video {
+  min-width: 100%;
+  min-height: 100%;
+}

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { HatoBtn, SectionTitle } from "./primitivos";
+import { useBreakpoint } from "@/hooks/useBreakpoint";
 
 type TestimonialItem = {
   date: string;
@@ -69,6 +70,13 @@ export default function Testimoniales() {
     []
   );
 
+  const bp = useBreakpoint();
+  const isMobile = bp === "mobile";
+  const isTablet = bp === "tablet";
+
+  const secPad     = isMobile ? "0 20px" : isTablet ? "0 32px" : "0 56px";
+  const arrowOffset = isTablet ? -16 : -32;
+
   // Start with 3 to match SSR; update after mount to avoid hydration mismatch
   const [perPage, setPerPage] = useState(3);
   useEffect(() => {
@@ -98,15 +106,20 @@ export default function Testimoniales() {
 
   return (
     <section style={{ background: "var(--g-verde-400)", padding: "80px 0" }}>
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 56px" }}>
+      <div style={{ maxWidth: 1440, margin: "0 auto", padding: secPad }}>
 
         <div style={{ textAlign: "center" }}>
           <SectionTitle color="var(--g-beige)" align="center">Ganaderos que van ganando</SectionTitle>
         </div>
 
         <div style={{ position: "relative", marginTop: 56 }}>
-          <SideArrow dir="left"  onClick={goPrev} disabled={idx === 0}      label="Testimonial anterior" />
-          <SideArrow dir="right" onClick={goNext} disabled={idx === maxIdx} label="Testimonial siguiente" />
+          {/* Flechas — ocultas en móvil */}
+          {!isMobile && (
+            <SideArrow dir="left"  onClick={goPrev} disabled={idx === 0}      label="Testimonial anterior" sideOffset={arrowOffset} />
+          )}
+          {!isMobile && (
+            <SideArrow dir="right" onClick={goNext} disabled={idx === maxIdx} label="Testimonial siguiente" sideOffset={arrowOffset} />
+          )}
 
           <div style={{ overflow: "hidden", marginLeft: -14, marginRight: -14 }}>
             <div style={{
@@ -226,10 +239,16 @@ function TestimonialCard({ name, grad, body, instagram, date, active }: Testimon
   );
 }
 
-function SideArrow({ dir, onClick, disabled, label }: { dir: "left" | "right"; onClick: () => void; disabled: boolean; label: string }) {
+function SideArrow({ dir, onClick, disabled, label, sideOffset = -32 }: {
+  dir: "left" | "right";
+  onClick: () => void;
+  disabled: boolean;
+  label: string;
+  sideOffset?: number;
+}) {
   const [hover, setHover] = useState(false);
   const [press, setPress] = useState(false);
-  const side = dir === "left" ? { left: -32 } : { right: -32 };
+  const side = dir === "left" ? { left: sideOffset } : { right: sideOffset };
   const slide = hover && !disabled ? (dir === "left" ? "translateX(-6px)" : "translateX(6px)") : "";
   const scale = press && !disabled ? "scale(0.92)" : (hover && !disabled ? "scale(1.08)" : "scale(1)");
   return (

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { CSSProperties } from "react";
+import { useBreakpoint } from "@/hooks/useBreakpoint";
 import {
   FlaskConical, TrendingUp, Layers, Sprout, HeartPulse, Award, Leaf,
   Target, Eye, Flame, ShieldCheck, Rocket, Compass, Droplet, Atom,
@@ -174,15 +175,18 @@ interface SectionTitleProps {
   align?: CSSProperties["textAlign"];
 }
 export function SectionTitle({ children, color = "var(--g-verde-500)", align = "center" }: SectionTitleProps) {
+  const bp = useBreakpoint();
+  const isMobile = bp === "mobile";
   return (
     <div style={{ textAlign: align, marginBottom: 56 }}>
       <h2 style={{
         display: "inline-block",
-        fontFamily: "var(--g-font-display)", fontSize: "clamp(24px, 3vw, 40px)",
+        fontFamily: "var(--g-font-display)", fontSize: "clamp(20px, 3vw, 40px)",
         lineHeight: 1.05, letterSpacing: "0.005em",
         color, fontWeight: 400, textTransform: "uppercase",
         margin: 0, paddingBottom: 6, borderBottom: "1.5px solid currentColor",
-        whiteSpace: "nowrap",
+        whiteSpace: isMobile ? "normal" : "nowrap",
+        maxWidth: isMobile ? "100%" : "none",
       }}>
         {children}
       </h2>
