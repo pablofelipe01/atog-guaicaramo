@@ -4,7 +4,7 @@ const HERO_SLIDES = [
   {
     photo: "assets/photography/hero-nelore-hato.jpg",
     label: "Nelore CIA · ganado para el trópico",
-    copy: <>Somos una empresa ganadera <br/>especializada en <span>genética de talla mundial</span> y en la creación de sistemas eficientes de producción animal para el trópico.</>,
+    copy: <>Somos una empresa Ganadera <br/>especializada en <span>genética de talla mundial</span> y en la creación de sistemas eficientes de producción animal para el trópico.</>,
   },
   {
     photo: "assets/photography/bufalos-pastura-cordillera.jpg",
