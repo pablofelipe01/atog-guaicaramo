@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es-CO">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hato Guaicaramo · Genética de talla mundial para el trópico</title>
+<meta name="description" content="Empresa ganadera especializada en genética de talla mundial y sistemas eficientes de producción animal para el trópico. Maní, Casanare." />
+
+<link rel="stylesheet" href="colors_and_type.css" />
+
+<style>
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--g-bg);
+    color: var(--g-fg);
+    font-family: var(--g-font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  * { box-sizing: border-box; }
+  ::selection { background: var(--g-cafe-200); color: var(--g-petroleo-900); }
+  :focus-visible {
+    outline: 3px solid var(--g-focus-ring);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+</style>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="components/components.jsx"></script>
+<script type="text/babel" src="components/HatoHeader.jsx"></script>
+<script type="text/babel" src="components/HatoHero.jsx"></script>
+<script type="text/babel" src="components/BuenasPracticas.jsx"></script>
+<script type="text/babel" src="components/Genetica.jsx"></script>
+<script type="text/babel" src="components/Bufalos.jsx"></script>
+<script type="text/babel" src="components/Sellos.jsx"></script>
+<script type="text/babel" src="components/Testimoniales.jsx"></script>
+<script type="text/babel" src="components/HatoFooter.jsx"></script>
+
+<script type="text/babel">
+function HatoApp() {
+  const [active, setActive] = React.useState("quienes");
+
+  const onNavigate = (id) => {
+    if (id === "top") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      setActive("quienes");
+      return;
+    }
+    setActive(id);
+    const t = document.getElementById(id);
+    if (t) {
+      const y = t.getBoundingClientRect().top + window.scrollY - 70;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
+  };
+
+  React.useEffect(() => {
+    if (window.lucide) window.lucide.createIcons();
+  });
+
+  return (
+    <div data-screen-label="Hato Guaicaramo · Web">
+      <HatoHeader active={active} onNavigate={onNavigate} />
+      <HatoHero />
+      <BuenasPracticas />
+      <Genetica />
+      <Bufalos />
+      <Sellos />
+      <Testimoniales />
+      <HatoFooter />
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<HatoApp />);
+</script>
+</body>
+</html>

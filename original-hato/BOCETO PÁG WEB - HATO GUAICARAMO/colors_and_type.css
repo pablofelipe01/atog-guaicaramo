@@ -1,0 +1,421 @@
+/* =============================================================
+   Hato Guaicaramo Design System — Color & Type Tokens
+   =============================================================
+   These tokens are the single source of truth for typography and
+   color across every Hato surface. Use the SEMANTIC vars
+   (--g-fg, --g-bg, --g-h1) in your CSS, not the raw scale.
+
+   Palette inspiration: Llanos Orientales at golden hour — sage
+   pasture green, sun-warmed khaki, río Upía slate, buffalo cream.
+   ============================================================= */
+
+/* ---- Brand web fonts ---- */
+/* Display: Albra Regular (Uncut) — supplied by brand */
+@font-face {
+  font-family: "Albra";
+  src: url("fonts/FontsFree-Net-AlbraRegular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Sans: Atlas Grotesk (Commercial Type) — supplied by brand */
+@font-face {
+  font-family: "Atlas Grotesk";
+  src: url("fonts/AtlasGrotesk-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Atlas Grotesk";
+  src: url("fonts/AtlasGrotesk-Medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+/* Synthesize 600/700 from Medium — brand has not supplied a true bold yet */
+@font-face {
+  font-family: "Atlas Grotesk";
+  src: url("fonts/AtlasGrotesk-Medium.otf") format("opentype");
+  font-weight: 600 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Mono kept as a system fallback — not on the brand sheet yet */
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap");
+
+:root {
+  /* ============================================================
+     COLOR — Brand palette
+     ============================================================
+     The 5 brand colors supplied by Guaicaramo:
+       Azul Petróleo  #233653   (deep navy — anchor / dark surfaces / text)
+       Verde Oscuro   #627761   (sage green — PRIMARY)
+       Verde Claro    #9aad99   (light sage — supporting)
+       Café Claro     #b7ad91   (warm khaki — accent / neutral warm)
+       Beige          #f9f6e8   (cream — page background)
+
+     Each is the anchor of a 50–900 scale, generated to keep
+     buttons / hovers / borders / scrims in tune with the brand.
+  */
+
+  /* ---- Petróleo (deep navy) — anchor / dark / text ---- */
+  --g-petroleo-50:  #e9edf2;
+  --g-petroleo-100: #ccd4e0;
+  --g-petroleo-200: #97a4ba;
+  --g-petroleo-300: #647394;
+  --g-petroleo-400: #3d4f72;
+  --g-petroleo-500: #2c3f5f;
+  --g-petroleo-600: #233653;   /* BRAND — Azul Petróleo */
+  --g-petroleo-700: #1a2840;
+  --g-petroleo-800: #121c2d;
+  --g-petroleo-900: #08101a;
+
+  /* ---- Verde (sage) — PRIMARY brand color ---- */
+  --g-verde-50:  #f1f3ef;
+  --g-verde-100: #dde2d8;
+  --g-verde-200: #c2cabd;
+  --g-verde-300: #9aad99;      /* BRAND — Verde Claro */
+  --g-verde-400: #7e9078;
+  --g-verde-500: #627761;      /* BRAND — Verde Oscuro */
+  --g-verde-600: #4f6151;
+  --g-verde-700: #3e4c40;
+  --g-verde-800: #2b372f;
+  --g-verde-900: #1a2120;
+
+  /* ---- Café (warm khaki) — accent / warm neutral ---- */
+  --g-cafe-50:  #faf6e8;
+  --g-cafe-100: #efe9d1;
+  --g-cafe-200: #dcd3b3;
+  --g-cafe-300: #c8bc9b;
+  --g-cafe-400: #b7ad91;       /* BRAND — Café Claro */
+  --g-cafe-500: #9a8f74;
+  --g-cafe-600: #7c7159;
+  --g-cafe-700: #5b5443;
+  --g-cafe-800: #3c372b;
+  --g-cafe-900: #201d15;
+
+  /* ---- Beige — the page background ---- */
+  --g-beige: #f9f6e8;          /* BRAND — Beige */
+
+  /* Pure white / black, kept available */
+  --g-white: #ffffff;
+  --g-black: #08101a;          /* really petroleo-900, never pure black */
+
+  /* ============================================================
+     LEGACY ALIASES
+     ============================================================
+     Existing components / cards reference --g-palm-*, --g-ochre-*,
+     --g-clay-*, --g-stone-*. We map them onto the brand scales so
+     nothing breaks while we migrate naming throughout the system.
+  */
+  --g-palm-50:  var(--g-verde-50);
+  --g-palm-100: var(--g-verde-100);
+  --g-palm-200: var(--g-verde-200);
+  --g-palm-300: var(--g-verde-300);
+  --g-palm-400: var(--g-verde-400);
+  --g-palm-500: var(--g-verde-500);
+  --g-palm-600: var(--g-verde-500);   /* primary lives on Verde Oscuro */
+  --g-palm-700: var(--g-verde-700);
+  --g-palm-800: var(--g-petroleo-700); /* dark sections shift to petróleo */
+  --g-palm-900: var(--g-petroleo-900);
+
+  --g-ochre-50:  var(--g-cafe-50);
+  --g-ochre-100: var(--g-cafe-100);
+  --g-ochre-200: var(--g-cafe-200);
+  --g-ochre-300: var(--g-cafe-300);
+  --g-ochre-400: var(--g-cafe-400);
+  --g-ochre-500: var(--g-cafe-500);
+  --g-ochre-600: var(--g-cafe-600);
+  --g-ochre-700: var(--g-cafe-700);
+
+  --g-clay-50:  var(--g-petroleo-50);
+  --g-clay-100: var(--g-petroleo-100);
+  --g-clay-300: var(--g-petroleo-300);
+  --g-clay-400: var(--g-petroleo-500);
+  --g-clay-500: var(--g-petroleo-600);
+  --g-clay-600: var(--g-petroleo-700);
+
+  --g-stone-0:   var(--g-white);
+  --g-stone-50:  var(--g-beige);
+  --g-stone-100: #f0ecd6;
+  --g-stone-200: var(--g-cafe-200);
+  --g-stone-300: var(--g-cafe-300);
+  --g-stone-400: var(--g-cafe-500);
+  --g-stone-500: var(--g-cafe-600);
+  --g-stone-600: var(--g-cafe-700);
+  --g-stone-700: var(--g-cafe-800);
+  --g-stone-800: var(--g-petroleo-700);
+  --g-stone-900: var(--g-petroleo-900);
+
+  /* Semantic — status */
+  --g-success: var(--g-verde-500);
+  --g-warning: var(--g-cafe-600);
+  --g-danger:  #a04b2e;        /* muted terracotta — substitution, see Caveats */
+  --g-info:    var(--g-petroleo-500);
+
+  /* ============================================================
+     COLOR — Semantic (use these in components)
+     ============================================================ */
+  --g-bg:           var(--g-beige);          /* page bg — brand Beige */
+  --g-bg-elevated:  var(--g-white);          /* cards on top of bg */
+  --g-bg-sunken:    #f0ecd6;                 /* inset/quieter regions */
+  --g-bg-inverse:   var(--g-petroleo-700);   /* dark sections, footers */
+
+  --g-fg:           var(--g-petroleo-900);   /* primary text */
+  --g-fg-muted:     var(--g-cafe-700);       /* secondary text */
+  --g-fg-subtle:    var(--g-cafe-600);       /* labels, captions */
+  --g-fg-inverse:   var(--g-beige);          /* text on dark bg */
+
+  --g-line:         var(--g-cafe-200);       /* default border */
+  --g-line-strong:  var(--g-cafe-300);
+
+  --g-primary:        var(--g-verde-500);    /* Verde Oscuro */
+  --g-primary-hover:  var(--g-verde-700);
+  --g-primary-fg:     var(--g-beige);
+
+  --g-secondary:       var(--g-petroleo-600);
+  --g-secondary-hover: var(--g-petroleo-700);
+  --g-secondary-fg:    var(--g-beige);
+
+  --g-accent:       var(--g-cafe-400);       /* Café Claro */
+  --g-link:         var(--g-petroleo-600);
+  --g-link-hover:   var(--g-verde-500);
+  --g-focus-ring:   var(--g-verde-300);
+
+  /* Hato Guaicaramo sub-brand — softer, dairy-forward */
+  --g-hato-bg:      var(--g-beige);
+  --g-hato-fg:      var(--g-petroleo-700);
+  --g-hato-accent:  var(--g-verde-500);
+
+  /* ============================================================
+     TYPE — Families
+     ============================================================
+     The display serif is meant to feel hand-set / editorial — it
+     anchors the heritage of a 40-year family agribusiness.
+     The sans is a workhorse for UI / body / labels.
+  */
+  --g-font-display: "Albra", "Source Serif 4", Georgia, "Times New Roman", serif;
+  --g-font-sans:    "Atlas Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --g-font-mono:    "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+
+  /* ============================================================
+     TYPE — Size scale  (modular ~1.2 — major third)
+     ============================================================ */
+  --g-text-2xs:  11px;
+  --g-text-xs:   12px;
+  --g-text-sm:   14px;
+  --g-text-md:   16px;   /* base */
+  --g-text-lg:   18px;
+  --g-text-xl:   22px;
+  --g-text-2xl:  28px;
+  --g-text-3xl:  36px;
+  --g-text-4xl:  48px;
+  --g-text-5xl:  64px;
+  --g-text-6xl:  84px;
+
+  /* Line heights */
+  --g-lh-tight:  1.05;
+  --g-lh-snug:   1.2;
+  --g-lh-normal: 1.5;
+  --g-lh-loose:  1.7;
+
+  /* Letter spacing */
+  --g-ls-tight:  -0.02em;
+  --g-ls-snug:   -0.01em;
+  --g-ls-normal: 0;
+  --g-ls-wide:   0.04em;
+  --g-ls-wider:  0.12em;     /* SECTION EYEBROWS */
+
+  /* Weights */
+  --g-weight-regular:  400;
+  --g-weight-medium:   500;
+  --g-weight-semibold: 600;
+  --g-weight-bold:     700;
+
+  /* ============================================================
+     SPACING — 4px base, generous "agrarian" rhythm
+     ============================================================ */
+  --g-space-1:  4px;
+  --g-space-2:  8px;
+  --g-space-3:  12px;
+  --g-space-4:  16px;
+  --g-space-5:  20px;
+  --g-space-6:  24px;
+  --g-space-8:  32px;
+  --g-space-10: 40px;
+  --g-space-12: 48px;
+  --g-space-16: 64px;
+  --g-space-20: 80px;
+  --g-space-24: 96px;
+  --g-space-32: 128px;
+
+  /* ============================================================
+     RADII — Mostly soft. Pure circles for portrait/avatar.
+     ============================================================ */
+  --g-radius-none: 0;
+  --g-radius-xs:   2px;
+  --g-radius-sm:   4px;
+  --g-radius-md:   8px;
+  --g-radius-lg:   14px;
+  --g-radius-xl:   22px;
+  --g-radius-2xl:  32px;
+  --g-radius-pill: 999px;
+  --g-radius-circle: 50%;
+
+  /* ============================================================
+     SHADOWS — Warm, low, no purple-blue. Tinted with stone.
+     ============================================================ */
+  --g-shadow-xs: 0 1px 2px rgba(34, 29, 20, 0.06);
+  --g-shadow-sm: 0 1px 2px rgba(34, 29, 20, 0.06), 0 2px 6px rgba(34, 29, 20, 0.06);
+  --g-shadow-md: 0 2px 4px rgba(34, 29, 20, 0.06), 0 8px 18px rgba(34, 29, 20, 0.08);
+  --g-shadow-lg: 0 8px 24px rgba(34, 29, 20, 0.10), 0 24px 48px rgba(34, 29, 20, 0.08);
+  --g-shadow-inset: inset 0 1px 0 rgba(255,255,255,0.6);
+
+  /* ============================================================
+     MOTION
+     ============================================================ */
+  --g-ease-out:  cubic-bezier(0.22, 1, 0.36, 1);
+  --g-ease-in:   cubic-bezier(0.55, 0, 0.68, 0.06);
+  --g-ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+  --g-dur-fast:    120ms;
+  --g-dur-base:    200ms;
+  --g-dur-slow:    360ms;
+  --g-dur-luxury:  600ms;
+}
+
+/* ============================================================
+   SEMANTIC TEXT STYLES — apply directly via class
+   ============================================================ */
+
+/* Section eyebrow — small uppercase label that sits above headlines */
+.g-eyebrow {
+  font-family: var(--g-font-sans);
+  font-size: var(--g-text-xs);
+  font-weight: var(--g-weight-semibold);
+  letter-spacing: var(--g-ls-wider);
+  text-transform: uppercase;
+  color: var(--g-petroleo-500);
+}
+
+/* Display — used for hero / big editorial moments */
+.g-display-1 {
+  font-family: var(--g-font-display);
+  font-size: clamp(48px, 7vw, var(--g-text-6xl));
+  line-height: var(--g-lh-tight);
+  letter-spacing: var(--g-ls-tight);
+  font-weight: var(--g-weight-regular);
+  /* Albra Regular sits beautifully large — no italic needed as defining treatment */
+  color: var(--g-fg);
+}
+.g-display-2 {
+  font-family: var(--g-font-display);
+  font-size: clamp(36px, 5vw, var(--g-text-5xl));
+  line-height: var(--g-lh-tight);
+  letter-spacing: var(--g-ls-tight);
+  font-weight: var(--g-weight-regular);
+  color: var(--g-fg);
+}
+
+/* Headings */
+.g-h1 {
+  font-family: var(--g-font-display);
+  font-size: var(--g-text-4xl);
+  line-height: var(--g-lh-tight);
+  letter-spacing: var(--g-ls-tight);
+  font-weight: var(--g-weight-regular);
+  color: var(--g-fg);
+}
+.g-h2 {
+  font-family: var(--g-font-display);
+  font-size: var(--g-text-3xl);
+  line-height: var(--g-lh-snug);
+  letter-spacing: var(--g-ls-snug);
+  font-weight: var(--g-weight-regular);
+  color: var(--g-fg);
+}
+.g-h3 {
+  font-family: var(--g-font-sans);
+  font-size: var(--g-text-2xl);
+  line-height: var(--g-lh-snug);
+  letter-spacing: var(--g-ls-snug);
+  font-weight: var(--g-weight-medium);
+  color: var(--g-fg);
+}
+.g-h4 {
+  font-family: var(--g-font-sans);
+  font-size: var(--g-text-xl);
+  line-height: var(--g-lh-snug);
+  font-weight: var(--g-weight-medium);
+  color: var(--g-fg);
+}
+
+/* Body */
+.g-body-lg {
+  font-family: var(--g-font-sans);
+  font-size: var(--g-text-lg);
+  line-height: var(--g-lh-loose);
+  color: var(--g-fg);
+  text-wrap: pretty;
+}
+.g-body {
+  font-family: var(--g-font-sans);
+  font-size: var(--g-text-md);
+  line-height: var(--g-lh-normal);
+  color: var(--g-fg);
+  text-wrap: pretty;
+}
+.g-body-sm {
+  font-family: var(--g-font-sans);
+  font-size: var(--g-text-sm);
+  line-height: var(--g-lh-normal);
+  color: var(--g-fg-muted);
+}
+
+/* Labels & captions */
+.g-label {
+  font-family: var(--g-font-sans);
+  font-size: var(--g-text-xs);
+  font-weight: var(--g-weight-medium);
+  letter-spacing: var(--g-ls-wide);
+  color: var(--g-fg-muted);
+  text-transform: uppercase;
+}
+.g-caption {
+  font-family: var(--g-font-sans);
+  font-size: var(--g-text-sm);
+  font-style: italic;
+  color: var(--g-fg-subtle);
+}
+
+/* Pull-quote — used for testimonials / corporate values */
+.g-quote {
+  font-family: var(--g-font-display);
+  font-size: var(--g-text-2xl);
+  line-height: var(--g-lh-snug);
+  color: var(--g-palm-700);
+  text-wrap: pretty;
+}
+
+/* Code (rare but defined for completeness) */
+.g-code {
+  font-family: var(--g-font-mono);
+  font-size: var(--g-text-sm);
+  background: var(--g-stone-100);
+  padding: 2px 6px;
+  border-radius: var(--g-radius-xs);
+}
+
+/* Base reset — opt-in via .g-doc on a wrapper */
+.g-doc {
+  font-family: var(--g-font-sans);
+  font-size: var(--g-text-md);
+  line-height: var(--g-lh-normal);
+  color: var(--g-fg);
+  background: var(--g-bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+.g-doc *::selection { background: var(--g-ochre-200); color: var(--g-stone-900); }
