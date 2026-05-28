@@ -891,7 +891,7 @@ function PastosBrachiaria() {
           gridTemplateColumns: isMobile ? "1fr" : "1.1fr 1fr",
           gap: isMobile ? 64 : 96,
           alignItems: "center",
-          paddingBottom: isMobile ? 24 : 120,
+          paddingBottom: isMobile ? 60 : 120,
         }}>
           <PastureRotation
             grazing={grazing} sectors={SECTORS}
@@ -968,7 +968,7 @@ function PastosBrachiaria() {
       {/* Closing image band */}
       <div style={{
         position: "relative", width: "100%",
-        marginTop: isMobile ? 0 : 200,
+        marginTop: isMobile ? 60 : 200,
         aspectRatio: "24 / 9", maxHeight: 460, overflow: "hidden",
       }}>
         <img

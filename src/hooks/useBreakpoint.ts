@@ -20,9 +20,9 @@ export function useBreakpoint(): Breakpoint {
       if (window.innerWidth < 1024) return "tablet";
       return "desktop";
     }
-    setBp(get());
     const handler = () => setBp(get());
     window.addEventListener("resize", handler);
+    handler();
     return () => window.removeEventListener("resize", handler);
   }, []);
 

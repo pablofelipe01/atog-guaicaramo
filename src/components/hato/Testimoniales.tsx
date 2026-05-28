@@ -80,29 +80,26 @@ export default function Testimoniales() {
   // Start with 3 to match SSR; update after mount to avoid hydration mismatch
   const [perPage, setPerPage] = useState(3);
   useEffect(() => {
-    function getPerPage() {
+    const getPerPage = () => {
       if (window.innerWidth < 720) return 1;
       if (window.innerWidth < 1080) return 2;
       return 3;
-    }
-    setPerPage(getPerPage());
+    };
     const onResize = () => setPerPage(getPerPage());
     window.addEventListener("resize", onResize);
+    onResize();
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
   const [idx, setIdx] = useState(0);
-  const maxIdx = Math.max(0, items.length - perPage);
-
-  useEffect(() => {
-    if (idx > maxIdx) setIdx(maxIdx);
-  }, [maxIdx, idx]);
+  const maxIdx  = Math.max(0, items.length - perPage);
+  const safeIdx = Math.min(idx, maxIdx);
 
   const goPrev = () => setIdx((i) => Math.max(0, i - 1));
   const goNext = () => setIdx((i) => Math.min(maxIdx, i + 1));
 
   const cardWidthPct = 100 / perPage;
-  const offsetPct = idx * cardWidthPct;
+  const offsetPct = safeIdx * cardWidthPct;
 
   // Touch swipe
   const touchStartX = useRef<number | null>(null);
@@ -131,7 +128,7 @@ export default function Testimoniales() {
 
   const onTouchEnd = () => {
     if (isHSwipe.current && Math.abs(dragX) > 40) {
-      dragX < 0 ? goNext() : goPrev();
+      if (dragX < 0) goNext(); else goPrev();
     }
     setDragX(0);
     touchStartX.current = null;
@@ -150,10 +147,10 @@ export default function Testimoniales() {
         <div style={{ position: "relative", marginTop: 56 }}>
           {/* Flechas — ocultas en móvil */}
           {!isMobile && (
-            <SideArrow dir="left"  onClick={goPrev} disabled={idx === 0}      label="Testimonial anterior" sideOffset={arrowOffset} />
+            <SideArrow dir="left"  onClick={goPrev} disabled={safeIdx === 0}       label="Testimonial anterior" sideOffset={arrowOffset} />
           )}
           {!isMobile && (
-            <SideArrow dir="right" onClick={goNext} disabled={idx === maxIdx} label="Testimonial siguiente" sideOffset={arrowOffset} />
+            <SideArrow dir="right" onClick={goNext} disabled={safeIdx === maxIdx}  label="Testimonial siguiente" sideOffset={arrowOffset} />
           )}
 
           <div
@@ -174,7 +171,7 @@ export default function Testimoniales() {
                   padding: "0 14px",
                   boxSizing: "border-box",
                 }}>
-                  <TestimonialCard {...it} active={i >= idx && i < idx + perPage} />
+                  <TestimonialCard {...it} active={i >= safeIdx && i < safeIdx + perPage} />
                 </div>
               ))}
             </div>
@@ -193,9 +190,9 @@ export default function Testimoniales() {
                 aria-label={`Ir al testimonial ${i + 1}`}
                 onClick={() => setIdx(i)}
                 style={{
-                  width: idx === i ? 28 : 8, height: 8,
+                  width: safeIdx === i ? 28 : 8, height: 8,
                   borderRadius: 999,
-                  background: idx === i ? "var(--g-beige)" : "rgba(249,246,232,0.4)",
+                  background: safeIdx === i ? "var(--g-beige)" : "rgba(249,246,232,0.4)",
                   border: "none", cursor: "pointer", padding: 0,
                   transition: "all 280ms var(--g-ease-soft)",
                 }}
@@ -207,7 +204,7 @@ export default function Testimoniales() {
             letterSpacing: "0.2em", textTransform: "uppercase",
             color: "var(--g-beige)", opacity: 0.7,
           }}>
-            {String(idx + 1).padStart(2, "0")} · {String(items.length).padStart(2, "0")}
+            {String(safeIdx + 1).padStart(2, "0")} · {String(items.length).padStart(2, "0")}
           </div>
         </div>
       </div>
