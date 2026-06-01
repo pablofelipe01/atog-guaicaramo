@@ -95,31 +95,27 @@ function NutricionHero() {
     if (!v) return;
 
     const tryPlay = () => {
+      if (!v.paused) return;           // ya está reproduciendo, no hacer nada
       const p = v.play();
-      if (p && typeof p.catch === "function") p.catch(() => {});
+      if (p) p.catch(() => {});        // silenciar AbortError / NotAllowedError
     };
 
-    // canplay fires when the browser has buffered enough to start — most reliable on mobile
-    v.addEventListener("canplay", tryPlay);
+    // Si el vídeo ya está en caché y listo (readyState ≥ HAVE_FUTURE_DATA)
+    // canplay no volverá a dispararse — forzar play inmediatamente
+    if (v.readyState >= 3) {
+      tryPlay();
+    } else {
+      // Primera carga / recarga: esperar a que haya datos suficientes
+      v.addEventListener("canplay", tryPlay, { once: true });
+    }
 
-    // Low Power Mode / Data Saver fallback: play on first user interaction
-    const onInteraction = () => tryPlay();
-    document.addEventListener("touchstart", onInteraction, { once: true, passive: true });
-    document.addEventListener("click", onInteraction, { once: true, passive: true });
-
-    // Resume after tab switch or page restore
+    // Reanudar al volver de otra pestaña
     const onVisibility = () => { if (!document.hidden) tryPlay(); };
     document.addEventListener("visibilitychange", onVisibility);
-    window.addEventListener("pageshow", tryPlay);
-    window.addEventListener("focus", tryPlay);
 
     return () => {
       v.removeEventListener("canplay", tryPlay);
-      document.removeEventListener("touchstart", onInteraction);
-      document.removeEventListener("click", onInteraction);
       document.removeEventListener("visibilitychange", onVisibility);
-      window.removeEventListener("pageshow", tryPlay);
-      window.removeEventListener("focus", tryPlay);
     };
   }, []);
 
@@ -135,10 +131,15 @@ function NutricionHero() {
           height: 100svh;
           min-height: 560px;
         }
-        @keyframes g-scrollHint {
-          0%   { transform: scaleY(0); opacity: 0; }
-          40%  { transform: scaleY(1); opacity: 1; }
-          100% { transform: scaleY(1) translateY(20px); opacity: 0; }
+        @keyframes g-scrollDot {
+          0%   { transform: translateY(0); opacity: 0; }
+          30%  { opacity: 1; }
+          75%  { transform: translateY(13px); opacity: 0; }
+          100% { opacity: 0; }
+        }
+        @keyframes g-cueFloat {
+          0%,100% { transform: translateX(-50%) translateY(0); }
+          50%     { transform: translateX(-50%) translateY(7px); }
         }
       `}</style>
 
@@ -147,7 +148,6 @@ function NutricionHero() {
         autoPlay muted loop playsInline
         disablePictureInPicture
         preload="auto"
-        poster="/assets/photography/bufalos-pastura-cordillera.jpg"
         style={{
           position: "absolute", inset: 0,
           width: "100%", height: "100%",
@@ -186,19 +186,30 @@ function NutricionHero() {
           Soluciones nutricionales de alto rendimiento para el bienestar y productividad de su ganado.
         </p>
 
-        <div style={{
-          position: "absolute", bottom: 36, left: "50%", transform: "translateX(-50%)",
-          display: "flex", flexDirection: "column", alignItems: "center", gap: 10,
-          color: "rgba(249,246,232,0.7)",
-          fontFamily: "var(--g-font-sans)", fontSize: 10,
-          letterSpacing: "0.24em", textTransform: "uppercase",
-        }}>
-          Descubra
+        {/* Scroll hint — cápsula flotante con punto deslizante */}
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            bottom: 38,
+            left: "50%",
+            zIndex: 3,
+            animation: "g-cueFloat 3s ease-in-out infinite",
+            width: 27,
+            height: 43,
+            borderRadius: 999,
+            border: "1.5px solid rgba(249,246,232,0.45)",
+            display: "flex",
+            justifyContent: "center",
+            paddingTop: 8,
+          }}
+        >
           <span style={{
-            width: 1, height: 36,
-            background: "rgba(249,246,232,0.5)",
-            animation: "g-scrollHint 2.2s ease-in-out infinite",
-            transformOrigin: "top",
+            width: 4,
+            height: 8,
+            borderRadius: 999,
+            background: "rgba(249,246,232,0.85)",
+            animation: "g-scrollDot 1.9s ease-in-out infinite",
           }} />
         </div>
       </div>
@@ -278,7 +289,9 @@ function FabricaIntro() {
 
             <Reveal delay={520}>
               <div style={{
-                display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24,
+                display: "grid",
+                gridTemplateColumns: isMobile ? "1fr" : isTablet ? "repeat(2, 1fr)" : "repeat(3, 1fr)",
+                gap: isMobile ? 16 : 24,
                 marginTop: 44, paddingTop: 32, borderTop: "1px dashed var(--g-line)",
               }}>
                 {[
@@ -968,7 +981,7 @@ function PastosBrachiaria() {
       {/* Closing image band */}
       <div style={{
         position: "relative", width: "100%",
-        marginTop: isMobile ? 60 : 200,
+        marginTop: isMobile ? 40 : 56,
         aspectRatio: "24 / 9", maxHeight: 460, overflow: "hidden",
       }}>
         <img
@@ -983,7 +996,7 @@ function PastosBrachiaria() {
         />
         <div aria-hidden style={{
           position: "absolute", inset: 0,
-          background: "linear-gradient(180deg, #08101A 0%, rgba(8,16,26,0.65) 14%, rgba(8,16,26,0.18) 32%, transparent 55%)",
+          background: "linear-gradient(180deg, rgba(8,16,26,0.72) 0%, rgba(8,16,26,0.38) 28%, rgba(8,16,26,0.10) 52%, transparent 68%)",
           pointerEvents: "none",
         }} />
       </div>
@@ -1214,32 +1227,18 @@ function PastureRotation({ grazing, sectors, day: _day, dayInSector, daysPerSect
         })()}
       </div>
 
-      {/* Móvil: label + leyenda + tarjetas en flujo normal */}
-      {isMobile && (
-        <div style={{ marginTop: 28 }}>
-          {labelEl}
-          <div style={{ marginTop: 12 }}>{legendEl}</div>
-          <div style={{ marginTop: 24 }}>{regimeCardsEl}</div>
+      {/* Label + leyenda + tarjetas en flujo normal — evita overflow bajo el SVG */}
+      <div style={{ marginTop: 28 }}>
+        {labelEl}
+        <div style={{ marginTop: 12 }}>{legendEl}</div>
+        <div style={{
+          marginTop: 24,
+          maxWidth: isMobile ? 320 : 480,
+          marginInline: "auto",
+        }}>
+          {regimeCardsEl}
         </div>
-      )}
-
-      {/* Desktop: posición absoluta bajo el SVG (comportamiento original) */}
-      {!isMobile && (
-        <>
-          <div style={{
-            position: "absolute", left: "50%", transform: "translateX(-50%)",
-            bottom: -260, width: 480, maxWidth: "100%",
-          }}>
-            {regimeCardsEl}
-          </div>
-          <div style={{ position: "absolute", left: 0, right: 0, bottom: -34 }}>
-            {labelEl}
-          </div>
-          <div style={{ position: "absolute", left: 0, right: 0, bottom: -76 }}>
-            {legendEl}
-          </div>
-        </>
-      )}
+      </div>
     </div>
   );
 }

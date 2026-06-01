@@ -4,6 +4,28 @@ import { useState } from "react";
 import { HatoWordmark } from "./primitivos";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 
+/* ---------- FooterLink ---------- */
+function FooterLink({ href, children, download }: { href: string; children: React.ReactNode; download?: boolean }) {
+  const [h, setH] = useState(false);
+  return (
+    <a
+      href={href}
+      download={download || undefined}
+      onMouseEnter={() => setH(true)}
+      onMouseLeave={() => setH(false)}
+      style={{
+        color: h ? "var(--g-verde-500)" : "var(--g-fg-muted)",
+        textDecoration: h ? "underline" : "none",
+        textUnderlineOffset: "3px",
+        transition: "color 160ms var(--g-ease-soft)",
+        cursor: "pointer",
+      }}
+    >
+      {children}
+    </a>
+  );
+}
+
 export default function HatoFooter() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
@@ -94,12 +116,18 @@ export default function HatoFooter() {
         fontFamily: "var(--g-font-sans)", fontSize: 12, color: "var(--g-fg-muted)",
         display: "flex",
         flexDirection: isMobile ? "column" : "row",
-        justifyContent: "space-between",
+        justifyContent: "center",
         alignItems: isMobile ? "flex-start" : "center",
-        gap: 12,
+        gap: 12, flexWrap: "wrap",
       }}>
-        <div>© 2026 Hato Guaicaramo · Maní, Casanare</div>
-        <div>Genética · Búfalos · Nutrición animal</div>
+        <span>Todos los derechos reservados</span>
+        <strong style={{ color: "var(--g-verde-500)", fontWeight: 600 }}>Hato Guaicaramo</strong>
+        <span>·</span>
+        <FooterLink href="#aviso-privacidad">Aviso de privacidad</FooterLink>
+        <span>·</span>
+        <FooterLink href="/assets/pdf/Politica-Tratamiento-Datos.pdf" download>
+          Política de tratamiento de datos
+        </FooterLink>
       </div>
     </footer>
   );

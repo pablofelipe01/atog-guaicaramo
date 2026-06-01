@@ -153,14 +153,14 @@ export default function QuienesSomos() {
             <div style={{ display: "grid", gap: 18, ...qsRise(2) }}>
               <p style={{
                 fontFamily: "var(--g-font-sans)", fontSize: 17, lineHeight: 1.6,
-                color: "var(--g-beige)", margin: 0, textWrap: "pretty",
+                color: "var(--g-petroleo-900)", margin: 0, textWrap: "pretty",
               }}>
-                Somos una empresa ganadera especializada en <strong style={{ color: "var(--g-beige)" }}>genética de talla mundial</strong> y
+                Somos una empresa ganadera especializada en <strong style={{ color: "var(--g-petroleo-900)" }}>genética de talla mundial</strong> y
                 en la creación de sistemas eficientes de producción animal para el trópico.
               </p>
               <p style={{
                 fontFamily: "var(--g-font-sans)", fontSize: 16, lineHeight: 1.6,
-                color: "var(--g-beige)", margin: 0, textWrap: "pretty",
+                color: "var(--g-petroleo-900)", margin: 0, textWrap: "pretty",
               }}>
                 Nuestro propósito es claro: contribuir con el desarrollo del trópico,
                 produciendo más kilos de carne y litros de leche por hectárea, con un
@@ -168,10 +168,10 @@ export default function QuienesSomos() {
               </p>
               <p style={{
                 fontFamily: "var(--g-font-sans)", fontSize: 16, lineHeight: 1.6,
-                color: "var(--g-beige)", margin: 0, textWrap: "pretty",
+                color: "var(--g-petroleo-900)", margin: 0, textWrap: "pretty",
               }}>
                 Invertimos en genética, nutrición y manejo porque entendemos que la
-                <strong style={{ color: "var(--g-beige)" }}> rentabilidad está en los ciclos productivos</strong>, no en la improvisación.
+                <strong style={{ color: "var(--g-petroleo-900)" }}> rentabilidad está en los ciclos productivos</strong>, no en la improvisación.
               </p>
             </div>
           </div>

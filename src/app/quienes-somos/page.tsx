@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 export default function QuienesSomosPage() {
   return (
     <div data-screen-label="Quiénes Somos · Hato Guaicaramo">
-      <main style={{ paddingTop: 76 }}>
+      <main style={{ paddingTop: 0 }}>
         <QuienesSomos />
       </main>
     </div>

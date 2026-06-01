@@ -12,11 +12,11 @@ interface HatoHeaderProps {
 }
 
 const items = [
-  { id: "quienes",   label: "QUIÉNES SOMOS",             href: "/quienes-somos" },
-  { id: "practicas", label: "NUESTRAS BUENAS PRÁCTICAS"                         },
-  { id: "genetica",  label: "GENÉTICA DE TALLA MUNDIAL"                         },
-  { id: "bufalos",   label: "NUESTROS BÚFALOS"                                  },
-  { id: "nutricion", label: "NUTRICIÓN ANIMAL",           href: "/nutricion-animal" },
+  { id: "quienes",   label: "QUIÉNES SOMOS",             href: "/quienes-somos"          },
+  { id: "practicas", label: "NUESTRAS BUENAS PRÁCTICAS", href: "/buenas-practicas"       },
+  { id: "genetica",  label: "GENÉTICA DE TALLA MUNDIAL", href: "/genetica-talla-mundial" },
+  { id: "bufalos",   label: "NUESTROS BÚFALOS",          href: "/nuestros-bufalos"       },
+  { id: "nutricion", label: "NUTRICIÓN ANIMAL",           href: "/nutricion-animal"      },
 ];
 
 export default function HatoHeader({ onNavigate, active: _active, inverse: _inverse = true, forceLight = false }: HatoHeaderProps) {

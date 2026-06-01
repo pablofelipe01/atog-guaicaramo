@@ -6,7 +6,10 @@ import { useBreakpoint } from "@/hooks/useBreakpoint";
 import {
   FlaskConical, TrendingUp, Layers, Sprout, HeartPulse, Award, Leaf,
   Target, Eye, Flame, ShieldCheck, Rocket, Compass, Droplet, Atom,
-  Wheat, Diamond, CircleDot, type LucideIcon,
+  Wheat, Diamond, CircleDot,
+  Dna, Settings2, Beef, Check, TimerReset, Sparkles, ArrowUpRight,
+  Venus, GitMerge, RefreshCw, Droplets, ShieldPlus,
+  type LucideIcon,
 } from "lucide-react";
 
 const ICON_MAP: Record<string, LucideIcon> = {
@@ -28,6 +31,18 @@ const ICON_MAP: Record<string, LucideIcon> = {
   "wheat":          Wheat,
   "diamond":        Diamond,
   "circle-dot":     CircleDot,
+  "dna":            Dna,
+  "settings-2":     Settings2,
+  "beef":           Beef,
+  "check":          Check,
+  "timer-reset":    TimerReset,
+  "sparkles":       Sparkles,
+  "arrow-up-right": ArrowUpRight,
+  "venus":          Venus,
+  "git-merge":      GitMerge,
+  "refresh-cw":     RefreshCw,
+  "droplets":       Droplets,
+  "shield-plus":    ShieldPlus,
 };
 
 /* ---------- HatoIcon ---------- */

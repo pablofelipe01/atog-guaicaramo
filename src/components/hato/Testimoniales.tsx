@@ -213,6 +213,7 @@ export default function Testimoniales() {
 }
 
 function TestimonialCard({ name, grad, body, instagram, date, active }: TestimonialItem & { active: boolean }) {
+  const isMobile = useBreakpoint() === "mobile";
   const months = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
   const d = new Date(date);
   const dateLabel = `${months[d.getMonth()]} ${d.getFullYear()}`;
@@ -235,7 +236,7 @@ function TestimonialCard({ name, grad, body, instagram, date, active }: Testimon
         borderRadius: 22,
         padding: "82px 28px 30px",
         textAlign: "center",
-        minHeight: 380,
+        minHeight: isMobile ? "auto" : 380,
         display: "flex", flexDirection: "column",
         boxShadow: "0 8px 22px rgba(8,16,26,0.12)",
       }}>
