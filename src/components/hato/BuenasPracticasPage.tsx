@@ -217,7 +217,7 @@ export default function BuenasPracticasPage() {
       `}</style>
       <BPHero />
       <BPIntro />
-      <section style={{ background: "var(--g-bg)", padding: "clamp(20px,3vw,40px) 0 clamp(80px,10vw,130px)" }}>
+      <section style={{ background: "var(--g-bg)", padding: "clamp(16px,2vw,28px) 0 clamp(52px,6vw,80px)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px,4vw,56px)" }}>
           {PRACTICES.map((p, i) => <BPPractice key={p.id} {...p} flip={i % 2 === 1} last={i === PRACTICES.length - 1} />)}
         </div>
@@ -233,25 +233,49 @@ export default function BuenasPracticasPage() {
 function BPHero() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
-  const pad = isMobile ? "100px 24px 80px" : "120px 56px 80px";
-  const motifs = [
-    { C: BPPaddockWheel, top: "16%", left: "8%",  size: 150, dur: "7s",   c: PAL.verde },
-    { C: BPIrrigation,  top: "54%", left: "16%", size: 130, dur: "8s",   c: PAL.petroleo },
-    { C: BPHealthShield, top: "20%", left: "78%", size: 140, dur: "9s",   c: PAL.cafe },
-    { C: BPGeneGauge,   top: "60%", left: "82%", size: 150, dur: "7.5s", c: PAL.verdeClaro },
-  ];
+  const pad = isMobile ? "64px 24px 52px" : "72px 56px 52px";
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    const tryPlay = () => {
+      if (!v.paused) return;
+      const p = v.play();
+      if (p) p.catch(() => {});
+    };
+    if (v.readyState >= 3) { tryPlay(); } else { v.addEventListener("canplay", tryPlay, { once: true }); }
+    const onVisibility = () => { if (!document.hidden) tryPlay(); };
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => { v.removeEventListener("canplay", tryPlay); document.removeEventListener("visibilitychange", onVisibility); };
+  }, []);
+
   return (
-    <section style={{ position: "relative", minHeight: "100vh", overflow: "hidden", background: "linear-gradient(160deg, var(--g-verde-900) 0%, var(--g-verde-800) 52%, var(--g-verde-700) 100%)", color: "var(--g-beige)", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-      <div aria-hidden style={{ position: "absolute", inset: 0, opacity: 0.5, backgroundImage: "radial-gradient(circle at 50% 0%, rgba(154,173,153,0.18), transparent 60%)" }} />
-      {!isMobile && motifs.map((m, i) => {
-        const Illo = m.C;
-        return (
-          <div key={i} aria-hidden style={{ position: "absolute", top: m.top, left: m.left, width: m.size, opacity: 0.16, filter: "grayscale(0.2)", animation: `bp-float ${m.dur} ease-in-out ${i * 0.6}s infinite`, pointerEvents: "none" }}>
-            <Illo c={m.c} />
-          </div>
-        );
-      })}
-      <div style={{ position: "relative", maxWidth: 1100, margin: "0 auto", width: "100%", padding: pad, textAlign: "center" }}>
+    <section style={{ position: "relative", minHeight: "100vh", overflow: "hidden", background: "#0d1a12", color: "var(--g-beige)", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+
+      {/* Video de fondo */}
+      <video
+        ref={videoRef}
+        autoPlay muted loop playsInline
+        disablePictureInPicture
+        preload="auto"
+        style={{
+          position: "absolute", inset: 0,
+          width: "100%", height: "100%",
+          objectFit: "cover",
+          filter: "brightness(0.55) saturate(0.85)",
+          zIndex: 0,
+        }}
+      >
+        <source src="/assets/videos/IMG_2292.MOV" type="video/mp4" />
+      </video>
+
+      {/* Overlay verde — mantiene la identidad de color de la sección */}
+      <div aria-hidden style={{ position: "absolute", inset: 0, zIndex: 1, background: "linear-gradient(160deg, rgba(26,33,20,0.72) 0%, rgba(43,55,35,0.55) 50%, rgba(26,33,20,0.68) 100%)" }} />
+      {/* Viñeta vertical para legibilidad del texto y del scroll hint */}
+      <div aria-hidden style={{ position: "absolute", inset: 0, zIndex: 1, background: "linear-gradient(180deg, rgba(8,16,10,0.45) 0%, transparent 30%, transparent 70%, rgba(8,16,10,0.60) 100%)" }} />
+
+      <div style={{ position: "relative", zIndex: 3, maxWidth: 1100, margin: "0 auto", width: "100%", padding: pad, textAlign: "center" }}>
         <BPReveal>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 28, fontFamily: "var(--g-font-sans)", fontSize: 12, fontWeight: 500, letterSpacing: "0.26em", textTransform: "uppercase", color: "var(--g-verde-300)" }}>
             <span style={{ width: 40, height: 1, background: "var(--g-verde-300)" }} />
@@ -269,7 +293,7 @@ function BPHero() {
           </p>
         </BPReveal>
       </div>
-      <div aria-hidden style={{ position: "absolute", bottom: 38, left: "50%", zIndex: 3, animation: "bp-cueFloat 3s ease-in-out infinite", width: 27, height: 43, borderRadius: 999, border: "1.5px solid rgba(249,246,232,0.45)", display: "flex", justifyContent: "center", paddingTop: 8 }}>
+      <div aria-hidden style={{ position: "absolute", bottom: 38, left: "50%", zIndex: 4, animation: "bp-cueFloat 3s ease-in-out infinite", width: 27, height: 43, borderRadius: 999, border: "1.5px solid rgba(249,246,232,0.45)", display: "flex", justifyContent: "center", paddingTop: 8 }}>
         <span style={{ width: 4, height: 8, borderRadius: 999, background: "rgba(249,246,232,0.85)", animation: "bp-scrollDot 1.9s ease-in-out infinite" }} />
       </div>
     </section>
@@ -304,7 +328,7 @@ function BPIntro() {
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";
   const isSmall = isMobile || isTablet;
-  const pad = isMobile ? "clamp(72px,9vw,120px) 24px clamp(40px,5vw,64px)" : "clamp(72px,9vw,120px) 56px clamp(40px,5vw,64px)";
+  const pad = isMobile ? "clamp(48px,6vw,80px) 24px clamp(28px,3vw,44px)" : "clamp(48px,6vw,80px) 56px clamp(28px,3vw,44px)";
   const idx = [
     { n: "01", t: "Pastoreo rotacional",          icon: "refresh-cw",  c: PAL.verde },
     { n: "02", t: "Nuestros riegos",               icon: "droplets",    c: PAL.petroleo },
@@ -423,7 +447,7 @@ function BPPractice({ id: _id, n, tag, title, illo, icon, lead, chips, note, fli
 function BPCTA() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
-  const pad = isMobile ? "clamp(80px,10vw,130px) 24px" : "clamp(80px,10vw,130px) 56px";
+  const pad = isMobile ? "clamp(48px,6vw,80px) 24px" : "clamp(48px,6vw,80px) 56px";
   return (
     <section style={{ position: "relative", background: "var(--g-verde-900)", color: "var(--g-beige)", padding: pad, overflow: "hidden" }}>
       <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(circle at 50% 120%, rgba(98,119,97,0.34), transparent 60%)" }} />

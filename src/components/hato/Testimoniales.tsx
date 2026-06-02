@@ -8,6 +8,7 @@ type TestimonialItem = {
   date: string;
   name: string;
   grad: string;
+  photo?: string;
   body: React.ReactNode;
   instagram: string;
 };
@@ -15,10 +16,11 @@ type TestimonialItem = {
 const rawItems: TestimonialItem[] = [
   {
     date: "2026-05-14",
-    name: "Andrés Quintero",
+    name: "Gabriel Jaramillo",
     grad: "linear-gradient(160deg,#c8b48a,#7a5e36,#1a1410)",
-    body: <>Cambiamos toda la línea de toros a <strong>Nelore CIA</strong>. Los terneros nacen más livianos, más fuertes y los destetes subieron 18 kilos. Inversión que se pagó sola.</>,
-    instagram: "https://www.instagram.com/hatoguaicaramo/",
+    photo: "/assets/illustrations/ganaderos.png",
+    body: <>Las decisiones importantes se miden en resultados. Gabriel Jaramillo apostó por nuestros <strong>Nelore Ciclo Corto</strong> y hoy comparte su experiencia.</>,
+    instagram: "https://www.instagram.com/reel/DY8TLcoNlS5/?igsh=MTRhczY4ZmN2ZTVnZQ==",
   },
   {
     date: "2026-04-02",
@@ -31,8 +33,9 @@ const rawItems: TestimonialItem[] = [
     date: "2026-02-18",
     name: "Ezequiel Carvajal",
     grad: "linear-gradient(160deg,#d6c7a8,#a08756,#2a2418)",
+    photo: "/assets/illustrations/Image (1).jpg",
     body: <>Ezequiel activó un nuevo nivel de su hato. Adquirió un <strong>toro Nelore Ciclo Corto</strong>. Mira esas crías: pura potencia. ¿Usted qué espera para adquirir nuestra genética?</>,
-    instagram: "https://www.instagram.com/hatoguaicaramo/",
+    instagram: "https://www.instagram.com/reel/DOZK5YNEaho/?igsh=N2t6cW1ybmRvNGho",
   },
   {
     date: "2025-11-22",
@@ -43,10 +46,11 @@ const rawItems: TestimonialItem[] = [
   },
   {
     date: "2025-09-08",
-    name: "María Fernanda Ríos",
-    grad: "linear-gradient(160deg,#dfd4b6,#8a6b3e,#2a1f14)",
-    body: <>Las <strong>búfalas de leche</strong> del Hato nos cambiaron la finca. Producción estable todo el año y una calidad de leche que el comprador paga con gusto.</>,
-    instagram: "https://www.instagram.com/hatoguaicaramo/",
+    name: "Ezequiel Carvajal",
+    grad: "linear-gradient(160deg,#d6c7a8,#a08756,#2a2418)",
+    photo: "/assets/illustrations/Image (1).jpg",
+    body: <>Ezequiel activó un nuevo nivel de su hato. Adquirió un <strong>toro Nelore Ciclo Corto</strong>. Mira esas crías: pura potencia. ¿Usted qué espera para adquirir nuestra genética?</>,
+    instagram: "https://www.instagram.com/reel/DOZK5YNEaho/?igsh=N2t6cW1ybmRvNGho",
   },
   {
     date: "2025-06-30",
@@ -137,7 +141,7 @@ export default function Testimoniales() {
   };
 
   return (
-    <section style={{ background: "var(--g-verde-400)", padding: "80px 0" }}>
+    <section style={{ background: "var(--g-verde-400)", padding: "56px 0" }}>
       <div style={{ maxWidth: 1440, margin: "0 auto", padding: secPad }}>
 
         <div style={{ textAlign: "center" }}>
@@ -212,7 +216,7 @@ export default function Testimoniales() {
   );
 }
 
-function TestimonialCard({ name, grad, body, instagram, date, active }: TestimonialItem & { active: boolean }) {
+function TestimonialCard({ name, grad, photo, body, instagram, date, active }: TestimonialItem & { active: boolean }) {
   const isMobile = useBreakpoint() === "mobile";
   const months = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
   const d = new Date(date);
@@ -227,10 +231,19 @@ function TestimonialCard({ name, grad, body, instagram, date, active }: Testimon
       <div style={{
         position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
         width: 130, height: 130, borderRadius: "50%",
-        background: grad,
-        border: "3px solid var(--g-petroleo-700)",
+        background: photo ? "transparent" : grad,
+        border: "none",
+        overflow: "hidden",
         zIndex: 2,
-      }} />
+      }}>
+        {photo && (
+          <img
+            src={photo}
+            alt={name}
+            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+          />
+        )}
+      </div>
       <div style={{
         background: "var(--g-beige)",
         borderRadius: 22,

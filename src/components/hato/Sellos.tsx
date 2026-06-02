@@ -4,11 +4,11 @@ import { SectionTitle } from "./primitivos";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 
 const sellos = [
-  { name: "CIA Melhoramento", src: "/assets/certs/cia-melhoramento.png" },
-  { name: "100% Precoce",     src: "/assets/certs/100-precoce.png"      },
-  { name: "100% Genômica",    src: "/assets/certs/100-genomica.png"     },
-  { name: "CESUG",            src: "/assets/certs/cesug.png"            },
-  { name: "USDA Organic",     src: "/assets/certs/usda-organic.png"     },
+  { name: "CIA Melhoramento", src: "/assets/certificados/cia-melhoramento.png", delay: "0s",    dur: "4.2s" },
+  { name: "100% Precoce",     src: "/assets/certificados/100-precoce.png",      delay: "0.6s",  dur: "3.8s" },
+  { name: "100% Genômica",    src: "/assets/certificados/100-genomica.png",     delay: "1.1s",  dur: "4.6s" },
+  { name: "CESUG",            src: "/assets/certificados/cesug.png",            delay: "0.3s",  dur: "3.5s" },
+  { name: "USDA Organic",     src: "/assets/certificados/usda-organic.png",     delay: "0.9s",  dur: "4.0s" },
 ];
 
 export default function Sellos() {
@@ -16,11 +16,22 @@ export default function Sellos() {
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";
 
-  const secPad  = isMobile ? "0 20px" : isTablet ? "0 32px" : "0 56px";
+  const secPad   = isMobile ? "0 20px" : isTablet ? "0 32px" : "0 56px";
   const gridCols = isMobile ? "repeat(2, 1fr)" : isTablet ? "repeat(3, 1fr)" : "repeat(5, 1fr)";
 
   return (
-    <section style={{ background: "var(--g-bg)", padding: "80px 0" }}>
+    <section style={{ background: "var(--g-bg)", padding: "56px 0" }}>
+      <style>{`
+        @keyframes sello-float {
+          0%, 100% { transform: translateY(0px);   }
+          50%       { transform: translateY(-10px); }
+        }
+        @keyframes sello-fadein {
+          from { opacity: 0; transform: translateY(16px); }
+          to   { opacity: 1; transform: translateY(0);    }
+        }
+      `}</style>
+
       <div style={{ maxWidth: 1440, margin: "0 auto", padding: secPad }}>
         <SectionTitle color="var(--g-verde-500)">Nuestros sellos de excelencia</SectionTitle>
         <div style={{
@@ -33,10 +44,17 @@ export default function Sellos() {
             <div key={s.name} style={{
               height: isMobile ? 110 : 160,
               display: "flex", alignItems: "center", justifyContent: "center", padding: "0 8px",
+              animation: `sello-fadein 600ms var(--g-ease-out) ${s.delay} both`,
             }}>
-              <img src={s.src} alt={s.name} style={{
-                maxHeight: "100%", maxWidth: "100%", objectFit: "contain",
-              }} />
+              <img
+                src={s.src}
+                alt={s.name}
+                style={{
+                  maxHeight: "100%", maxWidth: "100%", objectFit: "contain",
+                  animation: `sello-float ${s.dur} ease-in-out ${s.delay} infinite`,
+                  willChange: "transform",
+                }}
+              />
             </div>
           ))}
         </div>

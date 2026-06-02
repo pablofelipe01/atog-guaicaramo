@@ -118,8 +118,8 @@ interface HatoWordmarkProps {
 export function HatoWordmark({ size = 22, inverse = false, height }: HatoWordmarkProps) {
   const h = height ?? size * 2.9;
   const src = inverse
-    ? "/assets/logo-hato-negativo.png"
-    : "/assets/logo-hato-positivo.png";
+    ? "/assets/logo/logo-hato-negativo.png"
+    : "/assets/logo/logo-hato-positivo.png";
   return (
     <img
       src={src}
@@ -198,7 +198,7 @@ export function SectionTitle({ children, color = "var(--g-verde-500)", align = "
         display: "inline-block",
         fontFamily: "var(--g-font-display)", fontSize: "clamp(20px, 3vw, 40px)",
         lineHeight: 1.05, letterSpacing: "0.005em",
-        color, fontWeight: 400, textTransform: "uppercase",
+        color, fontWeight: 400,
         margin: 0, paddingBottom: 6, borderBottom: "1.5px solid currentColor",
         whiteSpace: isMobile ? "normal" : "nowrap",
         maxWidth: isMobile ? "100%" : "none",

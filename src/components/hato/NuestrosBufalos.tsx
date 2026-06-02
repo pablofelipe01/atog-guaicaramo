@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef } from "react";
 import type { CSSProperties } from "react";
 import { HatoIcon } from "./primitivos";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
@@ -103,7 +103,7 @@ export default function NuestrosBufalos() {
 function BufHero() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
-  const pad = isMobile ? "100px 24px 56px" : "120px 56px 56px";
+  const pad = isMobile ? "64px 24px 40px" : "72px 56px 40px";
   return (
     <section style={{ position: "relative", minHeight: "100vh", background: "var(--g-petroleo-900)", color: "var(--g-beige)", overflow: "hidden", display: "flex", flexDirection: "column", justifyContent: "center" }}>
       <div aria-hidden style={{ position: "absolute", inset: 0, backgroundImage: "url('/assets/photography/bufalos-pastura-cordillera.jpg')", backgroundSize: "cover", backgroundPosition: "center", animation: "nb-floatBg 22s ease-in-out infinite alternate" }} />
@@ -144,14 +144,14 @@ function BufHero() {
 function SistemaIntro() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
-  const pad = isMobile ? "clamp(80px,11vw,150px) 24px" : "clamp(80px,11vw,150px) 56px";
+  const pad = isMobile ? "clamp(40px,6vw,72px) 24px" : "clamp(40px,6vw,72px) 56px";
   const pillars = [
     { icon: "dna",        k: "Genética",  d: "que funciona" },
     { icon: "leaf",       k: "Nutrición", d: "que sostiene el sistema" },
     { icon: "settings-2", k: "Manejo",    d: "que estabiliza la producción" },
   ];
   return (
-    <section style={{ background: "var(--g-bg)", padding: `clamp(80px,11vw,150px) 0`, position: "relative", overflow: "hidden" }}>
+    <section style={{ background: "var(--g-bg)", padding: `clamp(40px,6vw,72px) 0`, position: "relative", overflow: "hidden" }}>
       <div aria-hidden style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(90deg, transparent calc(50% - .5px), rgba(61,79,114,0.05) calc(50% - .5px), rgba(61,79,114,0.05) calc(50% + .5px), transparent calc(50% + .5px))", pointerEvents: "none" }} />
       <div style={{ position: "relative", maxWidth: 1440, margin: "0 auto", padding: pad }}>
         <div style={{ maxWidth: 1080 }}>
@@ -202,7 +202,7 @@ function PilaresIndex() {
     { n: "03", t: "Búfalos para carne", d: "Nutrición · genética · manejo" },
   ];
   return (
-    <section style={{ background: "var(--g-petroleo-900)", color: "var(--g-beige)", padding: `clamp(54px,7vw,90px) 0` }}>
+    <section style={{ background: "var(--g-petroleo-900)", color: "var(--g-beige)", padding: `clamp(36px,5vw,60px) 0` }}>
       <div style={{ maxWidth: 1440, margin: "0 auto", padding: pad }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 0 }}>
           {items.map((it, i) => (
@@ -233,7 +233,7 @@ function BufalosTrabajo() {
     { k: "Docilidad",   v: 88, d: "Manejo seguro y predecible" },
   ];
   return (
-    <section style={{ background: "var(--g-bg)", padding: `clamp(90px,11vw,150px) 0`, overflow: "hidden" }}>
+    <section style={{ background: "var(--g-bg)", padding: `clamp(56px,7vw,96px) 0`, overflow: "hidden" }}>
       <div style={{ maxWidth: 1440, margin: "0 auto", padding: pad }}>
         <div style={{ display: "grid", gridTemplateColumns: isSmall ? "1fr" : "1fr 1.05fr", gap: "clamp(40px,5vw,88px)", alignItems: "center" }}>
           <NBTiltPhoto src="/assets/photography/bufalo-trabajo-palma.jpg" badge="Búfalos de trabajo" objectPosition="center" />
@@ -308,9 +308,9 @@ function BufalasLeche() {
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";
   const isSmall = isMobile || isTablet;
-  const pad = isMobile ? "clamp(96px,12vw,160px) 24px" : "clamp(96px,12vw,160px) 56px";
+  const pad = isMobile ? "clamp(60px,7vw,96px) 24px" : "clamp(60px,7vw,96px) 56px";
   return (
-    <section style={{ position: "relative", background: "var(--g-petroleo-900)", color: "var(--g-beige)", padding: `clamp(96px,12vw,160px) 0`, overflow: "hidden" }}>
+    <section style={{ position: "relative", background: "var(--g-petroleo-900)", color: "var(--g-beige)", padding: `clamp(60px,7vw,96px) 0`, overflow: "hidden" }}>
       <div aria-hidden style={{ position: "absolute", inset: 0, backgroundImage: "url('/assets/photography/ordeno-bufalas.jpg')", backgroundSize: "cover", backgroundPosition: "center", opacity: 0.16, filter: "saturate(0.8)" }} />
       <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(circle at 22% 20%, rgba(61,79,114,0.28), transparent 50%)" }} />
 
@@ -328,7 +328,20 @@ function BufalasLeche() {
             <NBRiseLine text="deja al azar." delay={120} color="var(--g-petroleo-200)" italic size="clamp(34px,5.4vw,84px)" />
           </div>
           <NBReveal delay={160}>
-            <div style={{ width: "100%", height: "clamp(260px, 30vw, 380px)", border: "1px solid rgba(249,246,232,0.18)", borderRadius: 16, background: "rgba(249,246,232,0.04)" }} />
+            <div style={{ width: "100%", height: "clamp(260px, 30vw, 380px)", borderRadius: 16, overflow: "hidden", border: "1px solid rgba(249,246,232,0.18)" }}>
+              <video
+                autoPlay muted loop playsInline
+                disablePictureInPicture
+                preload="auto"
+                style={{
+                  width: "100%", height: "100%",
+                  objectFit: "cover",
+                  display: "block",
+                }}
+              >
+                <source src="/assets/videos/lecheria.mp4" type="video/mp4" />
+              </video>
+            </div>
           </NBReveal>
         </div>
 
@@ -381,7 +394,7 @@ function BufalosCarne() {
     { k: "Bubillas preñadas",    d: "Hembras de reposición listas para el sistema.",             icon: "sprout"      },
   ];
   return (
-    <section style={{ background: "var(--g-bg)", padding: `clamp(90px,11vw,150px) 0`, overflow: "hidden" }}>
+    <section style={{ background: "var(--g-bg)", padding: `clamp(56px,7vw,96px) 0`, overflow: "hidden" }}>
       <div style={{ maxWidth: 1440, margin: "0 auto", padding: pad }}>
         <div style={{ display: "grid", gridTemplateColumns: isSmall ? "1fr" : "1.05fr 1fr", gap: "clamp(40px,5vw,88px)", alignItems: "center", marginBottom: "clamp(56px,7vw,96px)" }}>
           <div>
@@ -429,7 +442,7 @@ function BufalosCarne() {
   );
 }
 
-function NBLineaCard({ k, d, icon, n, delay }: { k: string; d: string; icon: string; n: number; delay: number }) {
+function NBLineaCard({ k, d, icon, n: _n, delay }: { k: string; d: string; icon: string; n: number; delay: number }) {
   const [hover, setHover] = useState(false);
   return (
     <NBReveal delay={delay}>
@@ -450,9 +463,9 @@ function NBLineaCard({ k, d, icon, n, delay }: { k: string; d: string; icon: str
 function BufalosCTA() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
-  const pad = isMobile ? "clamp(80px,10vw,130px) 24px" : "clamp(80px,10vw,130px) 56px";
+  const pad = isMobile ? "clamp(48px,6vw,80px) 24px" : "clamp(48px,6vw,80px) 56px";
   return (
-    <section style={{ position: "relative", background: "var(--g-petroleo-900)", color: "var(--g-beige)", padding: `clamp(80px,10vw,130px) 0`, overflow: "hidden" }}>
+    <section style={{ position: "relative", background: "var(--g-petroleo-900)", color: "var(--g-beige)", padding: `clamp(48px,6vw,80px) 0`, overflow: "hidden" }}>
       <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(circle at 50% 120%, rgba(61,79,114,0.32), transparent 60%)" }} />
       <div style={{ position: "relative", maxWidth: 1000, margin: "0 auto", padding: pad, textAlign: "center" }}>
         <NBRiseLine text="Aquí la producción se construye." color="var(--g-beige)" size="clamp(32px,4.6vw,68px)" />

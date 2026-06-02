@@ -156,7 +156,7 @@ function NutricionHero() {
           zIndex: 0,
         }}
       >
-        <source src="/assets/illustrations/DJI_0837.MP4" type="video/mp4" />
+        <source src="/assets/videos/DJI_0837.MP4" type="video/mp4" />
       </video>
 
       <div style={{
@@ -229,7 +229,7 @@ function FabricaIntro() {
   return (
     <section id="nutricion" style={{
       position: "relative", background: "var(--g-bg)",
-      padding: isMobile ? "72px 0 60px" : "120px 0 80px",
+      padding: isMobile ? "48px 0 40px" : "80px 0 56px",
       borderTop: "1px solid var(--g-line)", overflow: "hidden",
     }}>
       <div aria-hidden style={{
@@ -374,25 +374,47 @@ function FloatingPhoto({ isMobile = false }: { isMobile?: boolean }) {
 
       {/* Chips absolutas — ocultas en móvil para evitar overflow del viewport */}
       {!isMobile && (
-        <div style={{
-          position: "absolute", left: -28, bottom: 36, width: "82%",
-          background: "var(--g-petroleo-800)", color: "var(--g-beige)",
-          borderRadius: 14, padding: "22px 26px",
-          boxShadow: "0 24px 48px rgba(8,16,26,0.28)",
-          transform: "translateZ(40px)",
-        }}>
-          <div style={{
-            fontFamily: "var(--g-font-sans)", fontSize: 10,
-            letterSpacing: "0.22em", textTransform: "uppercase",
-            color: "var(--g-verde-300)", marginBottom: 10,
-          }}>Filosofía</div>
+        <a
+          href="https://www.instagram.com/reel/DQwnXYSjVN7/?igsh=azl0Z3gzODRsbXJi"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            position: "absolute", left: -28, bottom: 36, width: "82%",
+            background: "var(--g-petroleo-800)", color: "var(--g-beige)",
+            borderRadius: 14, padding: "22px 26px",
+            boxShadow: "0 24px 48px rgba(8,16,26,0.28)",
+            transform: "translateZ(40px)",
+            textDecoration: "none",
+            display: "block",
+            transition: "background 180ms var(--g-ease-soft), box-shadow 180ms var(--g-ease-soft)",
+          }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLAnchorElement).style.background = "var(--g-petroleo-700)";
+            (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 28px 56px rgba(8,16,26,0.40)";
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLAnchorElement).style.background = "var(--g-petroleo-800)";
+            (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 24px 48px rgba(8,16,26,0.28)";
+          }}
+        >
           <div style={{
             fontFamily: "var(--g-font-display)", fontSize: 22,
             lineHeight: 1.2, fontStyle: "italic", textWrap: "balance",
           }}>
             Lo que come el animal define su futuro.
           </div>
-        </div>
+          <div style={{
+            marginTop: 14, display: "inline-flex", alignItems: "center", gap: 8,
+            fontFamily: "var(--g-font-sans)", fontSize: 11, fontWeight: 600,
+            letterSpacing: "0.08em", textTransform: "uppercase",
+            color: "var(--g-verde-300)",
+          }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            Ver video
+          </div>
+        </a>
       )}
 
       {!isMobile && (
@@ -438,7 +460,7 @@ function ManifestoFabrica() {
     <section style={{
       position: "relative", background: "var(--g-petroleo-900)",
       color: "var(--g-beige)",
-      padding: isMobile ? "80px 0" : "140px 0",
+      padding: isMobile ? "52px 0" : "96px 0",
       overflow: "hidden",
     }}>
       <div aria-hidden style={{
@@ -548,7 +570,7 @@ function SalProteinada() {
   return (
     <section style={{
       position: "relative", background: "var(--g-bg)",
-      padding: isMobile ? "72px 0 60px" : "140px 0 120px",
+      padding: isMobile ? "48px 0 40px" : "96px 0 80px",
       overflow: "hidden",
     }}>
       <div style={{ maxWidth: 1440, margin: "0 auto", padding: hPad }}>
@@ -576,7 +598,7 @@ function SalProteinada() {
                 fontSize: "clamp(44px, 6vw, 92px)",
                 lineHeight: 0.98, letterSpacing: "-0.024em",
                 color: "var(--g-petroleo-900)", fontWeight: 400,
-                margin: 0, textTransform: "uppercase",
+                margin: 0,
               }}>
                 Sal <em style={{ fontStyle: "italic", color: "var(--g-verde-700)" }}>Proteinada</em>
               </h2>
@@ -760,7 +782,7 @@ function SalBagView({ active: _active, ingredients: _ingredients, onHover: _onHo
         onMouseMove={onMove}
         onMouseLeave={handleLeave}
         style={{
-          position: "relative", width: "100%", maxWidth: 820,
+          position: "relative", width: "100%", maxWidth: 1060,
           aspectRatio: "1024 / 700",
           transform: `perspective(1200px) rotateX(${tilt.y * -3}deg) rotateY(${tilt.x * 3}deg)`,
           transition: "transform 600ms var(--g-ease-soft)",
@@ -773,7 +795,7 @@ function SalBagView({ active: _active, ingredients: _ingredients, onHover: _onHo
           style={{
             position: "absolute", left: "50%", top: "50%",
             transform: `translate(-50%, -50%) translate(${tilt.x * -10}px, ${tilt.y * -10}px)`,
-            width: "118%", height: "auto", objectFit: "contain",
+            width: "140%", height: "auto", objectFit: "contain",
             filter: "drop-shadow(0 30px 50px rgba(8,16,26,0.22))",
             transition: "transform 600ms var(--g-ease-soft)",
             pointerEvents: "none",
@@ -852,7 +874,7 @@ function PastosBrachiaria() {
     <section style={{
       position: "relative", background: "var(--g-petroleo-900)",
       color: "var(--g-beige)",
-      padding: isMobile ? "72px 0 0" : "140px 0 0",
+      padding: isMobile ? "48px 0 0" : "96px 0 0",
       overflow: "hidden",
     }}>
       <div aria-hidden style={{
@@ -890,7 +912,7 @@ function PastosBrachiaria() {
                 fontSize: "clamp(40px, 5.4vw, 84px)",
                 lineHeight: 0.98, letterSpacing: "-0.024em",
                 color: "var(--g-beige)", fontWeight: 400,
-                margin: 0, textTransform: "uppercase",
+                margin: 0,
               }}>
                 Barichara <em style={{ fontStyle: "italic", color: "var(--g-verde-300)" }}>HUMIDÍCOLA</em>
               </h2>
@@ -981,22 +1003,29 @@ function PastosBrachiaria() {
       {/* Closing image band */}
       <div style={{
         position: "relative", width: "100%",
-        marginTop: isMobile ? 40 : 56,
+        marginTop: 0,
         aspectRatio: "24 / 9", maxHeight: 460, overflow: "hidden",
       }}>
         <img
-          src="/assets/photography/pastura-sabana.jpg"
-          alt="Pastura llanera con cielo abierto"
+          src="/assets/illustrations/pastoo.png"
+          alt="Pastura llanera"
           loading="lazy" decoding="async"
           style={{
             position: "absolute", inset: 0,
             width: "100%", height: "100%",
-            objectFit: "cover", objectPosition: "center 92%",
+            objectFit: "cover", objectPosition: "center 35%",
           }}
         />
+        {/* Gradiente superior: funde la sección oscura con la imagen */}
         <div aria-hidden style={{
           position: "absolute", inset: 0,
-          background: "linear-gradient(180deg, rgba(8,16,26,0.72) 0%, rgba(8,16,26,0.38) 28%, rgba(8,16,26,0.10) 52%, transparent 68%)",
+          background: "linear-gradient(180deg, rgba(8,16,26,0.96) 0%, rgba(8,16,26,0.72) 18%, rgba(8,16,26,0.38) 38%, rgba(8,16,26,0.12) 56%, transparent 72%)",
+          pointerEvents: "none",
+        }} />
+        {/* Viñeta lateral suave para evitar bordes duros */}
+        <div aria-hidden style={{
+          position: "absolute", inset: 0,
+          background: "linear-gradient(90deg, rgba(8,16,26,0.18) 0%, transparent 15%, transparent 85%, rgba(8,16,26,0.18) 100%)",
           pointerEvents: "none",
         }} />
       </div>

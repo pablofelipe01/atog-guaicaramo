@@ -266,7 +266,7 @@ export default function GeneticaTalla() {
 function GTHero() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
-  const pad = isMobile ? "100px 24px 56px" : "120px 56px 80px";
+  const pad = isMobile ? "64px 24px 40px" : "72px 56px 56px";
   return (
     <section style={{ position: "relative", minHeight: "100vh", background: "var(--g-verde-900)", color: "var(--g-beige)", overflow: "hidden", display: "flex", flexDirection: "column", justifyContent: "center" }}>
       <div aria-hidden style={{ position: "absolute", inset: 0, backgroundImage: "url('/assets/photography/hero-nelore-hato.jpg')", backgroundSize: "cover", backgroundPosition: "center", animation: "gt-floatBg 24s ease-in-out infinite alternate" }} />
@@ -306,7 +306,7 @@ function GTEnfoque() {
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";
   const isSmall = isMobile || isTablet;
-  const pad = isMobile ? "clamp(80px,11vw,150px) 24px clamp(40px,5vw,64px)" : "clamp(80px,11vw,150px) 56px clamp(40px,5vw,64px)";
+  const pad = isMobile ? "clamp(48px,7vw,96px) 24px clamp(28px,4vw,44px)" : "clamp(48px,7vw,96px) 56px clamp(28px,4vw,44px)";
   const pillars = [
     { icon: "timer-reset", k: "Ciclos más cortos",       d: "Reducimos el tiempo de producción en cada etapa." },
     { icon: "trending-up", k: "Resultados acelerados",   d: "Más kilos de carne, más rápido, con eficiencia real." },
@@ -336,7 +336,7 @@ function GTEnfoque() {
           <GTReveal delay={200}>
             <a href="https://www.ciademelhoramento.com.br/" target="_blank" rel="noopener" style={{ textDecoration: "none" }}>
               <div style={{ background: "var(--g-bg-elevated)", border: "1px solid var(--g-line)", borderRadius: 18, padding: "26px 28px", boxShadow: "var(--g-shadow-sm)", display: "flex", flexDirection: "column", gap: 16 }}>
-                <img src="/assets/certs/cia-melhoramento-clean.png" alt="CIA Melhoramento" style={{ height: 46, width: "auto", objectFit: "contain", alignSelf: "flex-start" }} />
+                <img src="/assets/certificados/cia-melhoramento-clean.png" alt="CIA Melhoramento" style={{ height: 46, width: "auto", objectFit: "contain", alignSelf: "flex-start" }} />
                 <div>
                   <div style={{ fontFamily: "var(--g-font-display)", fontSize: 22, color: "var(--g-verde-900)", lineHeight: 1.15, marginBottom: 6 }}>Programa de Mejoramiento Genético CIA</div>
                   <div style={{ display: "inline-flex", alignItems: "center", gap: 7, fontFamily: "var(--g-font-sans)", fontSize: 13, fontWeight: 500, color: "var(--g-verde-600)" }}>
@@ -375,7 +375,7 @@ function GTToros() {
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";
   const isSmall = isMobile || isTablet;
-  const pad = isMobile ? "clamp(48px,6vw,80px) 24px clamp(90px,11vw,150px)" : "clamp(48px,6vw,80px) 56px clamp(90px,11vw,150px)";
+  const pad = isMobile ? "clamp(32px,4vw,52px) 24px clamp(56px,7vw,96px)" : "clamp(32px,4vw,52px) 56px clamp(56px,7vw,96px)";
   return (
     <section style={{ background: "var(--g-bg)", padding: pad, overflow: "hidden" }}>
       <div style={{ maxWidth: 1440, margin: "0 auto", padding: isMobile ? "0 24px" : "0 56px" }}>
@@ -451,7 +451,7 @@ function GTPortafolio() {
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";
   const isSmall = isMobile || isTablet;
-  const pad = isMobile ? "clamp(90px,11vw,150px) 24px" : "clamp(90px,11vw,150px) 56px";
+  const pad = isMobile ? "clamp(56px,7vw,96px) 24px" : "clamp(56px,7vw,96px) 56px";
   const items = [
     { icon: "venus",     k: "Hembras preñadas Nelore CIA",           d: "Reposición de línea pura, lista para el sistema." },
     { icon: "git-merge", k: "Hembras preñadas Nelore CIA × Brahman", d: "Grados 50%, 75% y 87% CIA según su transición." },
@@ -509,7 +509,7 @@ function GTBiotec() {
   const isMobile = bp === "mobile";
   const isTablet = bp === "tablet";
   const isSmall = isMobile || isTablet;
-  const pad = isMobile ? "clamp(96px,12vw,160px) 24px" : "clamp(96px,12vw,160px) 56px";
+  const pad = isMobile ? "clamp(60px,7vw,100px) 24px" : "clamp(60px,7vw,100px) 56px";
   const logica = ["Reducir ciclos", "Mejorar rendimiento", "Aumentar productividad", "Sostener el crecimiento"];
   return (
     <section style={{ position: "relative", background: "var(--g-verde-900)", color: "var(--g-beige)", padding: pad, overflow: "hidden" }}>
@@ -607,7 +607,7 @@ function GTManifest() {
 function GTCTA() {
   const bp = useBreakpoint();
   const isMobile = bp === "mobile";
-  const pad = isMobile ? "clamp(72px,9vw,120px) 24px" : "clamp(72px,9vw,120px) 56px";
+  const pad = isMobile ? "clamp(48px,6vw,80px) 24px" : "clamp(48px,6vw,80px) 56px";
   return (
     <section style={{ position: "relative", background: "var(--g-verde-900)", color: "var(--g-beige)", padding: pad, overflow: "hidden" }}>
       <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(circle at 50% 120%, rgba(98,119,97,0.3), transparent 60%)" }} />

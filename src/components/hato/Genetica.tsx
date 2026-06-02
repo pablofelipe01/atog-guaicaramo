@@ -33,7 +33,7 @@ export default function Genetica() {
   const pad = isMobile ? "0 20px" : isTablet ? "0 clamp(24px, 4vw, 48px)" : "0 clamp(24px, 6vw, 96px)";
 
   return (
-    <section id="genetica" ref={ref} style={{ background: "var(--g-bg)", padding: isMobile ? "40px 0 0" : "80px 0", position: "relative" }}>
+    <section id="genetica" ref={ref} style={{ background: "var(--g-bg)", padding: isMobile ? "40px 0 0" : "0 0 80px 0", position: "relative" }}>
       <style>{`
         @keyframes g-spin  { to { transform: rotate(360deg); } }
         @keyframes g-pulse { 0%,100% { opacity:.5; transform:scaleX(1); } 50% { opacity:1; transform:scaleX(1.04); } }
@@ -127,7 +127,7 @@ export default function Genetica() {
                 <h2 style={{ ...enter(90), fontFamily: "var(--g-font-display)",
                   fontSize: isTablet ? "clamp(32px, 4.4vw, 56px)" : "clamp(40px, 5.4vw, 76px)",
                   lineHeight: 0.98, letterSpacing: "-0.01em",
-                  textTransform: "uppercase", color: "var(--g-beige)", fontWeight: 400, margin: 0 }}>
+                  color: "var(--g-beige)", fontWeight: 400, margin: 0 }}>
                   Nelore CIA<br /><span style={{ color: "var(--g-cafe-200)" }}>Ciclo Corto</span>
                 </h2>
 
@@ -163,7 +163,7 @@ export default function Genetica() {
             <p style={{ fontFamily: "var(--g-font-sans)", fontSize: 12.5, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--g-cafe-200)", marginBottom: 14 }}>
               Genética de talla mundial
             </p>
-            <h2 style={{ fontFamily: "var(--g-font-display)", fontSize: "clamp(28px, 7vw, 40px)", lineHeight: 1.0, textTransform: "uppercase", color: "var(--g-beige)", fontWeight: 400, margin: "0 0 16px" }}>
+            <h2 style={{ fontFamily: "var(--g-font-display)", fontSize: "clamp(28px, 7vw, 40px)", lineHeight: 1.0, color: "var(--g-beige)", fontWeight: 400, margin: "0 0 16px" }}>
               Nelore CIA<br /><span style={{ color: "var(--g-cafe-200)" }}>Ciclo Corto</span>
             </h2>
             <p style={{ fontFamily: "var(--g-font-sans)", fontSize: 16, lineHeight: 1.55, color: "var(--g-beige)", margin: "0 0 24px", textWrap: "pretty" }}>

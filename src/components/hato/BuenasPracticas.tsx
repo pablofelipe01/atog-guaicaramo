@@ -42,15 +42,16 @@ export default function BuenasPracticas() {
           gridTemplateColumns: gridCols,
           gap: isMobile ? 48 : 22,
           marginTop: isMobile ? 40 : 72,
+          alignItems: "stretch",
         }}>
-          {practices.map((p, i) => <PracticeCard key={p.id} {...p} delay={i * 60} isMobile={isMobile} />)}
+          {practices.map((p, i) => <PracticeCard key={p.id} {...p} delay={i * 60} />)}
         </div>
       </div>
     </section>
   );
 }
 
-function PracticeCard({ title, photo, anchor, delay: _delay, isMobile }: { title: string; photo: string; anchor: string; delay: number; isMobile: boolean }) {
+function PracticeCard({ title, photo, anchor, delay: _delay }: { title: string; photo: string; anchor: string; delay: number }) {
   const [hover, setHover] = useState(false);
   const radius = hover ? 30 : 24;
 
@@ -63,7 +64,9 @@ function PracticeCard({ title, photo, anchor, delay: _delay, isMobile }: { title
         position: "relative",
         transform: hover ? "translateY(-6px)" : "none",
         transition: "transform 300ms var(--g-ease-out)",
-        cursor: "pointer", textDecoration: "none", display: "block",
+        cursor: "pointer", textDecoration: "none",
+        display: "flex", flexDirection: "column",
+        height: "100%",
       }}
     >
       <div style={{
@@ -73,6 +76,7 @@ function PracticeCard({ title, photo, anchor, delay: _delay, isMobile }: { title
         padding: "30px 26px 30px",
         textAlign: "center",
         width: "100%",
+        flex: 1,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -80,12 +84,11 @@ function PracticeCard({ title, photo, anchor, delay: _delay, isMobile }: { title
           ? "0 18px 40px -12px rgba(8,16,26,0.22)"
           : "0 6px 18px -10px rgba(8,16,26,0.16)",
         transition: "box-shadow 300ms var(--g-ease-out), border-radius 300ms var(--g-ease-out)",
-        minHeight: isMobile ? "auto" : 308,
       }}>
         {/* Circular photo */}
         <div style={{
           width: 132, height: 132, borderRadius: "50%",
-          boxShadow: "0 0 0 1px var(--g-line)",
+          boxShadow: "0 0 0 3px var(--g-verde-300), 0 0 0 6px rgba(154,173,153,0.18)",
           overflow: "hidden", flexShrink: 0,
         }}>
           <img src={photo} alt={title} style={{
@@ -106,25 +109,29 @@ function PracticeCard({ title, photo, anchor, delay: _delay, isMobile }: { title
         <h3 style={{
           fontFamily: "var(--g-font-display)", fontSize: 19, lineHeight: 1.2,
           letterSpacing: "0.01em", color: "var(--g-petroleo-900)", fontWeight: 400,
-          margin: "14px 0 16px", textTransform: "uppercase",
+          margin: "14px 0 16px",
         }}>
           {title}
         </h3>
 
-        {/* Ver más link */}
+        {/* Botón Ver más */}
         <span style={{
           marginTop: "auto",
-          display: "inline-flex", alignItems: "center", gap: 7,
-          fontFamily: "var(--g-font-sans)", fontSize: 12.5, fontWeight: 600,
-          letterSpacing: "0.05em", textTransform: "uppercase",
-          color: hover ? "var(--g-verde-700)" : "var(--g-verde-500)",
-          transition: "color 200ms var(--g-ease-soft)",
+          display: "inline-flex", alignItems: "center", gap: 8,
+          fontFamily: "var(--g-font-sans)", fontSize: 12, fontWeight: 600,
+          letterSpacing: "0.06em", textTransform: "uppercase",
+          padding: "9px 20px",
+          borderRadius: 8,
+          border: `1.5px solid ${hover ? "var(--g-verde-600)" : "var(--g-verde-400)"}`,
+          background: hover ? "var(--g-verde-500)" : "transparent",
+          color: hover ? "var(--g-beige)" : "var(--g-verde-600)",
+          transition: "all 220ms var(--g-ease-soft)",
         }}>
           Ver más
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"
             style={{
-              transform: hover ? "translateX(5px)" : "none",
+              transform: hover ? "translateX(3px)" : "none",
               transition: "transform 280ms var(--g-ease-out)",
             }}>
             <line x1="5" y1="12" x2="19" y2="12" />

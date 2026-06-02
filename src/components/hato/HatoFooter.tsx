@@ -32,7 +32,7 @@ export default function HatoFooter() {
   const isTablet = bp === "tablet";
   const isSmall  = isMobile || isTablet;
 
-  const secPad    = isMobile ? "60px 20px 0" : isTablet ? "60px 32px 0" : "80px 56px 0";
+  const secPad    = isMobile ? "40px 20px 0" : isTablet ? "40px 32px 0" : "56px 56px 0";
   const creditPad = isMobile ? "14px 20px" : isTablet ? "14px 32px" : "14px 56px";
   const gridCols  = isSmall ? "1fr" : "1.05fr 1fr";
   const gridGap   = isMobile ? 40 : isTablet ? 48 : 80;
@@ -125,7 +125,7 @@ export default function HatoFooter() {
         <span>·</span>
         <FooterLink href="#aviso-privacidad">Aviso de privacidad</FooterLink>
         <span>·</span>
-        <FooterLink href="/assets/pdf/Politica-Tratamiento-Datos.pdf" download>
+        <FooterLink href="/assets/pdf/POLITICA_DE_TRATAMIENTO_DE_DATOS_PERSONALES.pdf" download>
           Política de tratamiento de datos
         </FooterLink>
       </div>

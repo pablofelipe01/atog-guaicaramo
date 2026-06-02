@@ -18,7 +18,7 @@ export default function QuienesSomos() {
   const isTablet  = bp === "tablet";
   const noParallax = isMobile || isTablet;
 
-  const secPad = isMobile ? "48px 20px" : isTablet ? "60px 32px" : "72px 56px";
+  const secPad = isMobile ? "32px 20px" : isTablet ? "40px 32px" : "48px 56px";
 
   return (
     <div id="quienes" style={{ background: "var(--g-bg)" }}>
@@ -318,7 +318,7 @@ export default function QuienesSomos() {
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundAttachment: noParallax ? "scroll" : "fixed",
-        padding: isMobile ? "64px 20px" : "96px 56px",
+        padding: isMobile ? "40px 20px" : "64px 56px",
         borderTop: "1px solid var(--g-verde-800)", overflow: "hidden",
       }}>
         {!isMobile && (
@@ -562,11 +562,12 @@ function ValorCard({ icon, num, title, desc, tone, delay }: {
   tone: string; tint: string; delay: number;
 }) {
   const [flipped, setFlipped] = useState(false);
+  const isTouch = useBreakpoint() !== "desktop";
   const toggle = () => setFlipped((f) => !f);
   return (
     <div
-      onMouseEnter={() => setFlipped(true)}
-      onMouseLeave={() => setFlipped(false)}
+      onMouseEnter={isTouch ? undefined : () => setFlipped(true)}
+      onMouseLeave={isTouch ? undefined : () => setFlipped(false)}
       onClick={toggle}
       onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } }}
       tabIndex={0}

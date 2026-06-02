@@ -89,16 +89,17 @@ export default function HatoHero() {
         </div>
       ))}
 
-      {/* Copy overlay */}
+      {/* Copy overlay — izquierda, centrado verticalmente */}
       <div style={{
         position: "absolute",
-        left: hPad, right: hPad, bottom: vPad, top: vPad,
-        display: "flex", flexDirection: "column", justifyContent: "flex-end",
-        overflow: "hidden",
+        inset: 0,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "flex-start",
+        padding: `${vPad}px ${hPad}px`,
       }}>
         <div style={{ maxWidth: isMobile ? "100%" : 760 }}>
-
-          {/* Titular */}
           <h1 style={{
             fontFamily: "var(--g-font-display)",
             fontSize: isMobile ? "clamp(22px, 7vw, 32px)" : "clamp(28px, 3.5vw, 58px)",
@@ -112,24 +113,27 @@ export default function HatoHero() {
           }}>
             {HERO_SLIDES[idx].copy}
           </h1>
-
         </div>
+      </div>
 
-        {/* Carousel dots */}
-        <div style={{
-          marginTop: isMobile ? 32 : 52,
-          display: "flex", gap: 12, alignItems: "center",
-          fontFamily: "var(--g-font-sans)", fontSize: 11,
-        }}>
-          {HERO_SLIDES.map((_, i) => (
-            <button key={i} onClick={() => setIdx(i)} style={{
-              width: i === idx ? 22 : 8, height: 8, borderRadius: 999,
-              background: i === idx ? "var(--g-beige)" : "rgba(249,246,232,0.4)",
-              border: "none", padding: 0, cursor: "pointer",
-              transition: "all 200ms var(--g-ease-soft)",
-            }} />
-          ))}
-        </div>
+      {/* Carousel dots — fijos en la parte inferior */}
+      <div style={{
+        position: "absolute",
+        bottom: isMobile ? 32 : 48,
+        left: hPad,
+        right: hPad,
+        display: "flex",
+        justifyContent: "center",
+        gap: 12,
+      }}>
+        {HERO_SLIDES.map((_, i) => (
+          <button key={i} onClick={() => setIdx(i)} style={{
+            width: i === idx ? 22 : 8, height: 8, borderRadius: 999,
+            background: i === idx ? "var(--g-beige)" : "rgba(249,246,232,0.4)",
+            border: "none", padding: 0, cursor: "pointer",
+            transition: "all 200ms var(--g-ease-soft)",
+          }} />
+        ))}
       </div>
     </section>
   );

@@ -72,16 +72,15 @@ export default function Bufalos() {
               pointerEvents: "none", whiteSpace: "nowrap", userSelect: "none",
             }}>BÚFALOS</div>
 
-            {/* Cut-out buffalo */}
+            {/* Buffalo photo */}
             <img
-              src="/assets/photography/bufalo-recortado.png"
+              src="/assets/illustrations/bufalo-home.png"
               alt="Búfalo del Hato Guaicaramo"
               style={{
                 position: "absolute", left: 0, bottom: 0,
-                height: isTablet ? "min(120%, 420px)" : "min(150%, 560px)",
-                width: "auto", maxWidth: isTablet ? "44%" : "52%",
-                objectFit: "contain", objectPosition: "left bottom",
-                filter: "drop-shadow(18px 22px 30px rgba(8,16,26,0.45))",
+                height: isTablet ? "min(115%, 460px)" : "min(135%, 580px)",
+                width: "auto", maxWidth: isTablet ? "50%" : "56%",
+                objectFit: "cover", objectPosition: "center top",
                 opacity: vis ? 1 : 0, transition: "opacity 0.9s var(--g-ease-out) 0.15s",
                 pointerEvents: "none", zIndex: 2,
               }}
@@ -128,7 +127,7 @@ export default function Bufalos() {
                 <h2 style={{ ...enter(90), fontFamily: "var(--g-font-display)",
                   fontSize: isTablet ? "clamp(32px, 4.4vw, 56px)" : "clamp(40px, 5.4vw, 76px)",
                   lineHeight: 0.98, letterSpacing: "-0.01em",
-                  textTransform: "uppercase", color: "var(--g-beige)", fontWeight: 400, margin: 0 }}>
+                  color: "var(--g-beige)", fontWeight: 400, margin: 0 }}>
                   Nuestros<br /><span style={{ color: "var(--g-cafe-200)" }}>Búfalos</span>
                 </h2>
 
@@ -164,7 +163,7 @@ export default function Bufalos() {
             <p style={{ fontFamily: "var(--g-font-sans)", fontSize: 12.5, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--g-cafe-200)", marginBottom: 14 }}>
               Carne y leche
             </p>
-            <h2 style={{ fontFamily: "var(--g-font-display)", fontSize: "clamp(28px, 7vw, 40px)", lineHeight: 1.0, textTransform: "uppercase", color: "var(--g-beige)", fontWeight: 400, margin: "0 0 16px" }}>
+            <h2 style={{ fontFamily: "var(--g-font-display)", fontSize: "clamp(28px, 7vw, 40px)", lineHeight: 1.0, color: "var(--g-beige)", fontWeight: 400, margin: "0 0 16px" }}>
               Nuestros<br /><span style={{ color: "var(--g-cafe-200)" }}>Búfalos</span>
             </h2>
             <p style={{ fontFamily: "var(--g-font-sans)", fontSize: 16, lineHeight: 1.55, color: "var(--g-beige)", margin: "0 0 24px", textWrap: "pretty" }}>
